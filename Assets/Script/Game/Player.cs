@@ -11,8 +11,21 @@ using BezierSolution;
  */
 public class Player : MonoBehaviour
 {
+    [Header("Movement")]
     // Stage's main rail path
     public BezierWalkerWithSpeed m_BezierWalker;
+    // Movement speed along the rail path
+    public float m_RailSpeed = 3f;
+    // Walk bobbing speed
+    public float m_BobAnimSpeed = 0.06f;
+    // Walk bobbing strength
+    public float m_BobAnimStrength = 0.15f;
+
+    [Header("Rotation")]
+    // Gyro motion sensitivity multiplier
+    public float m_GyroSensitivity = 4000f;
+
+    [Header("Weapons")]
     // Projectile prefab to shoot
     public GameObject m_Projectile;
 
@@ -24,7 +37,7 @@ public class Player : MonoBehaviour
     Quaternion m_GyroRotation = Quaternion.identity;
 
     // Keep track of animated walk sine value
-    float m_WalkAnimSine = 0.0f;
+    float m_WalkAnimSine = 0f;
 
     // Touchpad state vars
     Vector2Int m_LastTouchPos;
@@ -53,20 +66,20 @@ public class Player : MonoBehaviour
 
             // (Debug) Use the d-pad to move across the bezier line
             if (m_Gamepad.dpad.up.isPressed)
-                m_BezierWalker.speed = 3;
+                m_BezierWalker.speed = m_RailSpeed;
             else if (m_Gamepad.dpad.down.isPressed)
-                m_BezierWalker.speed = -3;
+                m_BezierWalker.speed = -m_RailSpeed;
             else
                 m_BezierWalker.speed = 0;
 
             // Produce a walking animation by bobbing up/down using sine math
             if (m_BezierWalker.speed > 0) {
-                transform.position += new Vector3(0, 0.15f * Mathf.Sin(m_WalkAnimSine), 0);
-                m_WalkAnimSine += 0.06f;
+                transform.position += new Vector3(0, m_BobAnimStrength * Mathf.Sin(m_WalkAnimSine), 0);
+                m_WalkAnimSine += m_BobAnimSpeed;
             }
 
             // Poll gyroscope rotation data
-            m_GyroRotation *= DS4.GetRotation(4000 * Time.deltaTime);
+            m_GyroRotation *= DS4.GetRotation(m_GyroSensitivity * Time.deltaTime);
 
             // Poll touch data to shoot the assigned projectile
             if (DS4.IsTouchHeld()) {
