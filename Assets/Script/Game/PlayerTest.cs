@@ -1,14 +1,14 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using BezierSolution;
 
 public class PlayerTest : MonoBehaviour
 {
     private Gamepad controller = null;
     private Transform m_transform;
 
-    public Bezier testBezier;
-    public float bezierTime = 0f;
+    public BezierWalkerWithSpeed testBezier;
 
     Quaternion gyroRotation = Quaternion.identity;
 
@@ -24,8 +24,6 @@ public class PlayerTest : MonoBehaviour
     }
 
     void Update() {
-        m_transform.position = testBezier.GetPoint(bezierTime);
-
         if (controller == null) {
             try {
                 controller = DS4.getController();
@@ -41,9 +39,11 @@ public class PlayerTest : MonoBehaviour
 
             // Move across the bezier line
             if (controller.dpad.up.isPressed)
-                bezierTime += 0.4f * Time.deltaTime;
-            else if(controller.dpad.down.isPressed)
-                bezierTime -= 0.4f * Time.deltaTime;
+                testBezier.speed = 3;
+            else if (controller.dpad.down.isPressed)
+                testBezier.speed = -3;
+            else
+                testBezier.speed = 0;
 
             gyroRotation *= DS4.getRotation(4000 * Time.deltaTime);
 
@@ -84,7 +84,7 @@ public class PlayerTest : MonoBehaviour
                 has_shot_projectile = false;
             }
 
-            m_transform.rotation = Quaternion.LookRotation(testBezier.GetDerivative(bezierTime));
+            m_transform.rotation = Quaternion.LookRotation(testBezier.Spline.GetTangent(testBezier.NormalizedT));
             m_transform.rotation *= gyroRotation;
         }
     }
