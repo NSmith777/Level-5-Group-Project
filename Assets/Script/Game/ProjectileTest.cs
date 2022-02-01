@@ -1,14 +1,24 @@
-﻿using System.Collections;
+﻿// System namespaces
+using System.Collections;
+// Unity namespaces
 using UnityEngine;
 
+/*
+ * Simple dummy projectile prefab script.
+ */
 public class ProjectileTest : MonoBehaviour
 {
-    public float speed = 10f;
-    public float aliveTime = 4f;
+    // Firing speed
+    public float m_Speed = 10f;
+    // How long will this projectile stay alive for?
+    public float m_AliveTime = 4f;
 
+    /*
+     * Waits for X seconds, then destroys this projectile.
+     */
     IEnumerator kill()
     {
-        yield return new WaitForSeconds(aliveTime);
+        yield return new WaitForSeconds(m_AliveTime);
         Destroy(gameObject);
     }
 
@@ -19,6 +29,6 @@ public class ProjectileTest : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        transform.Translate(Vector3.forward * m_Speed * Time.deltaTime);
     }
 }
