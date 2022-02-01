@@ -1336,6 +1336,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BezierWalker: {fileID: 1145449931}
+  m_RailSpeed: 3
+  m_BobAnimSpeed: 0.02
+  m_BobAnimStrength: 0.15
+  m_GyroSensitivity: 4000
   m_Projectile: {fileID: 6380057035159202975, guid: d0476d980fdd5dc4386ca189f87d6e98,
     type: 3}
 --- !u!114 &1145449931

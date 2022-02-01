@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     // Movement speed along the rail path
     public float m_RailSpeed = 3f;
     // Walk bobbing speed
-    public float m_BobAnimSpeed = 0.06f;
+    public float m_BobAnimSpeed = 0.02f;
     // Walk bobbing strength
     public float m_BobAnimStrength = 0.15f;
 
@@ -73,9 +73,9 @@ public class Player : MonoBehaviour
                 m_BezierWalker.speed = 0;
 
             // Produce a walking animation by bobbing up/down using sine math
-            if (m_BezierWalker.speed > 0) {
+            if (m_BezierWalker.speed != 0) {
                 transform.position += new Vector3(0, m_BobAnimStrength * Mathf.Sin(m_WalkAnimSine), 0);
-                m_WalkAnimSine += m_BobAnimSpeed;
+                m_WalkAnimSine += m_BobAnimSpeed * m_RailSpeed;
             }
 
             // Poll gyroscope rotation data
