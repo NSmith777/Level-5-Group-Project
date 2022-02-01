@@ -23,6 +23,9 @@ public class Player : MonoBehaviour
     // Keep track of local gyroscope rotation
     Quaternion m_GyroRotation = Quaternion.identity;
 
+    // Keep track of animated walk sine value
+    float m_WalkAnimSine = 0.0f;
+
     // Touchpad state vars
     Vector2Int m_LastTouchPos;
     bool m_IsNotTouched = false;
@@ -55,6 +58,12 @@ public class Player : MonoBehaviour
                 m_BezierWalker.speed = -3;
             else
                 m_BezierWalker.speed = 0;
+
+            // Produce a walking animation by bobbing up/down using sine math
+            if (m_BezierWalker.speed > 0) {
+                transform.position += new Vector3(0, 0.15f * Mathf.Sin(m_WalkAnimSine), 0);
+                m_WalkAnimSine += 0.06f;
+            }
 
             // Poll gyroscope rotation data
             m_GyroRotation *= DS4.GetRotation(4000 * Time.deltaTime);
