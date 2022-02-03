@@ -12,8 +12,6 @@ using BezierSolution;
 public class Player : MonoBehaviour
 {
     [Header("Movement")]
-    // Stage's main rail path
-    public BezierWalkerWithSpeed m_BezierWalker;
     // Movement speed along the rail path
     public float m_RailSpeed = 3f;
     // Walk bobbing speed
@@ -30,6 +28,7 @@ public class Player : MonoBehaviour
     public GameObject m_Projectile;
 
     // Cached vars
+    private BezierWalkerWithSpeed m_BezierWalker;
     private Gamepad m_Gamepad = null;
     private Transform m_Transform;
 
@@ -45,6 +44,7 @@ public class Player : MonoBehaviour
     bool m_HasShotProjectile = false;
 
     void Start() {
+        m_BezierWalker = GetComponent<BezierWalkerWithSpeed>();
         m_Gamepad = DS4.GetController();
         m_Transform = transform;
     }
