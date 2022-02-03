@@ -100,23 +100,23 @@ public class Player : MonoBehaviour
 
                 Debug.DrawRay(m_Transform.position, m_Transform.forward * 300.0f, Color.green);
 
-                // Here, two checks are performed in order to shoot a projectile.
+                // Calculate touchpad swipe angle
+                float shoot_angle = Mathf.Abs(Vector3.Angle(tpad_delta, Vector3.forward));
+
+                // Here, three checks are performed in order to shoot a projectile.
                 // First, we see if the player has swiped across the touchpad fast enough, as per our swipe sensitivity setting.
                 // (TODO: Add configurable finger swipe sensitivity setting and add a UI option for it!)
                 // Second, we make sure we haven't already fired a projectile while our finger has currently been held on the touchpad.
-                if(tpad_delta.magnitude > 50f && !m_HasShotProjectile) {
+                // Lastly, check that the finger swipe motion is upwards.
+                if (tpad_delta.magnitude > 50f && !m_HasShotProjectile && shoot_angle < 45f) {
                     // Fire the projectile from the centre-bottom of our first-person view
                     Vector3 instantiate_pos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.0f, Camera.main.nearClipPlane));
 
-                    // Calculate a rotation offset based on which direction we swiped across the touchpad
-                    // (TODO: Account for human error in finger swipe direction; it's too difficult to keep firing at the same spot!)
-                    Quaternion projectile_dir = Quaternion.LookRotation(tpad_delta);
-
                     // Fire the projectile directly towards the hit point, otherwise just blindly fire forwards
                     if (Physics.Raycast(m_Transform.position, m_Transform.forward, out RaycastHit hit, 300.0f))
-                        Instantiate(m_Projectile, instantiate_pos, Quaternion.LookRotation(hit.point - instantiate_pos) * projectile_dir);
+                        Instantiate(m_Projectile, instantiate_pos, Quaternion.LookRotation(hit.point - instantiate_pos));
                     else
-                        Instantiate(m_Projectile, instantiate_pos, m_Transform.rotation * projectile_dir);
+                        Instantiate(m_Projectile, instantiate_pos, m_Transform.rotation);
 
                     // Make sure we don't run this again until we release our finger off the touchpad
                     m_HasShotProjectile = true;
