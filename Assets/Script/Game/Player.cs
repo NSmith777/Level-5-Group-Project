@@ -1,5 +1,6 @@
 ﻿// System namespaces
 using System;
+using System.Collections;
 // Unity namespaces
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,12 +14,22 @@ using BezierSolution;
 public class Player : MonoBehaviour
 {
     [Header("Movement")]
+    // User defined points to stop and shoot on the path
+    public StopPoint[] m_StopPoints;
     // Movement speed along the rail path
     public float m_RailSpeed = 3f;
     // Walk bobbing speed
     public float m_BobAnimSpeed = 0.02f;
     // Walk bobbing strength
     public float m_BobAnimStrength = 0.15f;
+
+    [Serializable]
+    public struct StopPoint
+    {
+        public GameObject[] m_EnableEnmRails;   // Enemy rails to enable at this stop point
+        public float m_StopAt;                  // Location on path the enemy should stop moving at (normalized time)
+        public float m_Time;                    // How long the enemy should stop at this location for
+    }
 
     [Header("Rotation")]
     // Gyro motion sensitivity multiplier
@@ -40,8 +51,12 @@ public class Player : MonoBehaviour
     // Keep track of local gyroscope rotation
     Quaternion m_GyroRotation = Quaternion.identity;
 
+    // Index indicating the current stop to target next
+    private int m_CurrentStop = 0;
+    // Is player currently moving?
+    private bool m_IsMoving = true;
     // Keep track of animated walk sine value
-    float m_WalkAnimSine = 0f;
+    private float m_WalkAnimSine = 0f;
 
     // Touchpad state vars
     Vector2Int m_LastTouchPos;
@@ -50,8 +65,28 @@ public class Player : MonoBehaviour
 
     void Start() {
         m_BezierWalker = GetComponent<BezierWalkerWithSpeed>();
+        m_BezierWalker.speed = m_RailSpeed;
+
         m_Gamepad = DS4.GetController();
         m_Transform = transform;
+    }
+
+    IEnumerator MovementTimer()
+    {
+        // Stop moving this enemy
+        m_IsMoving = false;
+        m_BezierWalker.speed = 0;
+
+        // Activate all enemy rails for this stop
+        foreach(GameObject EnemyRailGO in m_StopPoints[m_CurrentStop].m_EnableEnmRails)
+            EnemyRailGO.SetActive(true);
+
+        yield return new WaitForSeconds(m_StopPoints[m_CurrentStop].m_Time);
+
+        // Resume moving along the path
+        m_BezierWalker.speed = m_RailSpeed;
+        m_IsMoving = true;
+        m_CurrentStop++;
     }
 
     void Update() {
@@ -68,14 +103,6 @@ public class Player : MonoBehaviour
             // Press circle button to reset rotation (TODO: Smooth rotation transition)
             if (m_Gamepad.buttonEast.isPressed)
                 m_GyroRotation = Quaternion.identity;
-
-            // (Debug) Use the d-pad to move across the bezier line
-            if (m_Gamepad.dpad.up.isPressed)
-                m_BezierWalker.speed = m_RailSpeed;
-            else if (m_Gamepad.dpad.down.isPressed)
-                m_BezierWalker.speed = -m_RailSpeed;
-            else
-                m_BezierWalker.speed = 0;
 
             // Produce a walking animation by bobbing up/down using sine math
             if (m_BezierWalker.speed != 0) {
@@ -140,6 +167,12 @@ public class Player : MonoBehaviour
             // We need our orientation relative to the forward dir against the spline path (tangent).
             m_Transform.rotation = Quaternion.LookRotation(m_BezierWalker.Spline.GetTangent(m_BezierWalker.NormalizedT));
             m_Transform.rotation *= m_GyroRotation;
+        }
+
+        if(m_IsMoving && m_CurrentStop < m_StopPoints.Length)
+        {
+            if (m_BezierWalker.NormalizedT >= m_StopPoints[m_CurrentStop].m_StopAt)
+                StartCoroutine(MovementTimer());
         }
 
         // Update progression HUD elements as per current position in the stage

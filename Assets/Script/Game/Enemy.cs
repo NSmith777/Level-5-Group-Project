@@ -33,6 +33,8 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         m_BezierWalker = GetComponent<BezierWalkerWithSpeed>();
+        m_BezierWalker.speed = m_Speed;
+
         m_Transform = transform;
         m_Player = GameObject.FindGameObjectWithTag("Player");
     }

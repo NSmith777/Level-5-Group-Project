@@ -26,7 +26,8 @@ public class EnemyFactory : MonoBehaviour
 
     void Start()
     {
-        
+        // Start deactivated
+        gameObject.SetActive(false);
     }
 
     IEnumerator SpawnTimer()
