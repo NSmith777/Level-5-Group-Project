@@ -1,6 +1,5 @@
 ﻿// System namespaces
 using System;
-using System.Collections;
 // Unity namespaces
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,7 +27,6 @@ public class Player : MonoBehaviour
     {
         public GameObject[] m_EnableEnmRails;   // Enemy rails to enable at this stop point
         public float m_StopAt;                  // Location on path the enemy should stop moving at (normalized time)
-        public float m_Time;                    // How long the enemy should stop at this location for
     }
 
     [Header("Rotation")]
@@ -73,24 +71,6 @@ public class Player : MonoBehaviour
 
         m_Gamepad = DS4.GetController();
         m_Transform = transform;
-    }
-
-    IEnumerator MovementTimer()
-    {
-        // Stop moving this enemy
-        m_IsMoving = false;
-        m_BezierWalker.speed = 0;
-
-        // Activate all enemy rails for this stop
-        foreach(GameObject EnemyRailGO in m_StopPoints[m_CurrentStop].m_EnableEnmRails)
-            EnemyRailGO.SetActive(true);
-
-        yield return new WaitForSeconds(m_StopPoints[m_CurrentStop].m_Time);
-
-        // Resume moving along the path
-        m_BezierWalker.speed = m_RailSpeed;
-        m_IsMoving = true;
-        m_CurrentStop++;
     }
 
     void Update() {
@@ -173,10 +153,42 @@ public class Player : MonoBehaviour
             m_Transform.rotation *= m_GyroRotation;
         }
 
-        if(m_IsMoving && m_CurrentStop < m_StopPoints.Length)
+        if(m_IsMoving)
         {
-            if (m_BezierWalker.NormalizedT >= m_StopPoints[m_CurrentStop].m_StopAt)
-                StartCoroutine(MovementTimer());
+            if(m_CurrentStop < m_StopPoints.Length)
+            {
+                if (m_BezierWalker.NormalizedT >= m_StopPoints[m_CurrentStop].m_StopAt)
+                {
+                    // Stop moving this enemy
+                    m_IsMoving = false;
+                    m_BezierWalker.speed = 0;
+
+                    // Activate all enemy rails for this stop
+                    foreach (GameObject EnemyRailGO in m_StopPoints[m_CurrentStop].m_EnableEnmRails)
+                        EnemyRailGO.SetActive(true);
+                }
+            }
+        }
+        else
+        {
+            // Check that all enemy paths at this stop point are completed and inactive.
+            // Once they are, the player can continue moving forwards to the next stop.
+
+            bool all_enm_paths_gone = true;
+
+            foreach (GameObject EnemyPathGO in m_StopPoints[m_CurrentStop].m_EnableEnmRails)
+            {
+                if (EnemyPathGO.activeSelf)
+                    all_enm_paths_gone = false;
+            }
+
+            if (all_enm_paths_gone)
+            {
+                // Resume moving along the path
+                m_BezierWalker.speed = m_RailSpeed;
+                m_IsMoving = true;
+                m_CurrentStop++;
+            }
         }
 
         // Update progression HUD elements as per current position in the stage

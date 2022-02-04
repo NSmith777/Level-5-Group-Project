@@ -984,7 +984,7 @@ GameObject:
   - component: {fileID: 270651133}
   - component: {fileID: 270651135}
   m_Layer: 0
-  m_Name: EnemyBezierPath
+  m_Name: EnemyPath_Wave1_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1746,7 +1746,7 @@ GameObject:
   - component: {fileID: 665018071}
   - component: {fileID: 665018070}
   m_Layer: 0
-  m_Name: EnemyBezierPath (1)
+  m_Name: EnemyPath_Wave1_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
