@@ -2,6 +2,7 @@
 using System;
 // Unity namespaces
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 // Package namespaces
 using BezierSolution;
@@ -26,6 +27,10 @@ public class Player : MonoBehaviour
     [Header("Weapons")]
     // Projectile prefab to shoot
     public GameObject m_Projectile;
+
+    [Header("HUD")]
+    public Image ProgressBar;
+    public Text ProgressPercent;
 
     // Cached vars
     private BezierWalkerWithSpeed m_BezierWalker;
@@ -136,5 +141,9 @@ public class Player : MonoBehaviour
             m_Transform.rotation = Quaternion.LookRotation(m_BezierWalker.Spline.GetTangent(m_BezierWalker.NormalizedT));
             m_Transform.rotation *= m_GyroRotation;
         }
+
+        // Update progression HUD elements as per current position in the stage
+        ProgressBar.fillAmount = m_BezierWalker.NormalizedT;
+        ProgressPercent.text = Mathf.CeilToInt(m_BezierWalker.NormalizedT * 100) + "%";
     }
 }
