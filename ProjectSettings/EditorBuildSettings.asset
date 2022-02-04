@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Menus/Intros.unity
     guid: 708ae72e2d65333499e5f11834eff033
   - enabled: 1
+    path: Assets/Scenes/Menus/MainMenu.unity
+    guid: 91cd17034b5369a4caa17f529a858630
+  - enabled: 1
     path: Assets/Testing/Nathan/Scenes/GameplayTest.unity
     guid: f1bc0a30a71b09f45b08657a0459a699
   - enabled: 1
