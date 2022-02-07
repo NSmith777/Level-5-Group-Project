@@ -141,7 +141,7 @@ public class Player : MonoBehaviour
         if (m_BezierWalker.speed != 0)
         {
             transform.position += new Vector3(0, m_BobAnimStrength * Mathf.Sin(m_WalkAnimSine), 0);
-            m_WalkAnimSine += m_BobAnimSpeed * m_RailSpeed;
+            m_WalkAnimSine += m_BobAnimSpeed * m_RailSpeed * Time.deltaTime;
         }
 
         if (m_IsMoving)

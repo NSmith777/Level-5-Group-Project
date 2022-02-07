@@ -1245,7 +1245,7 @@ MonoBehaviour:
   - m_EnableEnmRails: []
     m_StopAt: 0.77
   m_RailSpeed: 4
-  m_BobAnimSpeed: 0.02
+  m_BobAnimSpeed: 4
   m_BobAnimStrength: 0.15
   m_GyroSensitivity: 4000
   m_Projectile: {fileID: 6380057035159202975, guid: d0476d980fdd5dc4386ca189f87d6e98,
