@@ -133,7 +133,7 @@ public class DS4
 
                 if (device is DualShockGamepad)
                 {
-                    Debug.Log("Device was DualShock, diabling m_IsConnected...");
+                    Debug.Log("Device was DualShock, disabling m_IsConnected...");
 
                     m_IsConnected = false;
                 }
