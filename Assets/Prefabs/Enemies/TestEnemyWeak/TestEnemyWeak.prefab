@@ -9,11 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5258170640417665502}
+  - component: {fileID: 2672786936159790223}
   - component: {fileID: 3751233295171463973}
   - component: {fileID: 4677111632115898933}
   m_Layer: 0
-  m_Name: TestEnemy
-  m_TagString: Untagged
+  m_Name: TestEnemyWeak
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33,6 +34,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &2672786936159790223
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 342877724489282549}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.75
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3751233295171463973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,6 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fc8fac988d51ef4195922f65703bfbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_MaxHealth: 2
+  m_Health: 2
   m_Speed: 3
   m_StopPoints:
   - m_StopAt: 0.25

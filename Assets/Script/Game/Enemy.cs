@@ -8,6 +8,12 @@ using BezierSolution;
 
 public class Enemy : MonoBehaviour
 {
+    // Maximum enemy health
+    public float m_MaxHealth = 2f;
+    // Current enemy health
+    public float m_Health = 2f;
+    // Amount this enemy will add to score when destroyed
+    public int m_ScoreAdd = 100;
     // Enemy movement speed across the path
     public float m_Speed = 3f;
     // User defined points to stop and shoot the player at
@@ -64,6 +70,14 @@ public class Enemy : MonoBehaviour
 
         // Always face towards the player
         m_Transform.rotation = Quaternion.Slerp(m_Transform.rotation, Quaternion.LookRotation(m_Player.transform.position - m_Transform.position), 0.05f);
+
+        // Destroy this enemy and add to players' score
+        if(m_Health <= 0)
+        {
+            m_Player.GetComponent<Player>().m_Score += m_ScoreAdd;
+
+            Destroy(gameObject);
+        }
     }
 
     /*

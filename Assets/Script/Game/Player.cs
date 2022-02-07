@@ -37,9 +37,12 @@ public class Player : MonoBehaviour
     public GameObject m_Projectile;
 
     [Header("HUD")]
+    public int m_Score = 0;
+    public Text m_ScoreCounter;
+    public float m_Time = 0f;
+    public Text m_TimeCounter;
     public Image m_ProgressBar;
     public Text m_ProgressPercent;
-    public Text m_TimeCounter;
 
     // Cached vars
     private BezierWalkerWithSpeed m_BezierWalker;
@@ -47,9 +50,6 @@ public class Player : MonoBehaviour
 
     // Keep track of local gyroscope rotation
     Quaternion m_GyroRotation = Quaternion.identity;
-
-    // Keep track of time
-    private float m_Time = 0f;
 
     // Index indicating the current stop to target next
     private int m_CurrentStop = 0;
@@ -185,6 +185,8 @@ public class Player : MonoBehaviour
         // Update progression HUD elements as per current position in the stage
         m_ProgressBar.fillAmount = m_BezierWalker.NormalizedT;
         m_ProgressPercent.text = Mathf.CeilToInt(m_BezierWalker.NormalizedT * 100) + "%";
+
+        m_ScoreCounter.text = m_Score.ToString().PadLeft(8, '0');
 
         m_Time += Time.deltaTime;
         m_TimeCounter.text = TimeSpan.FromSeconds(m_Time).ToString(@"mm\:ss\.fff");

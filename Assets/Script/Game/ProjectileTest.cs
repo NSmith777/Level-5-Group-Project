@@ -8,6 +8,8 @@ using UnityEngine;
  */
 public class ProjectileTest : MonoBehaviour
 {
+    // How much health this projectile removes from an enemy
+    public int m_Strength = 1;
     // Firing speed
     public float m_Speed = 10f;
     // How long will this projectile stay alive for?
@@ -29,6 +31,17 @@ public class ProjectileTest : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector3.forward * m_Speed * Time.deltaTime);
+        float next_step = m_Speed * Time.deltaTime;
+
+        if(Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, next_step))
+        {
+            if(hit.collider.CompareTag("Enemy"))
+            {
+                hit.collider.GetComponent<Enemy>().m_Health -= m_Strength;
+                Destroy(gameObject);
+            }
+        }
+
+        transform.position += transform.forward * next_step;
     }
 }
