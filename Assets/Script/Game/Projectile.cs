@@ -6,7 +6,7 @@ using UnityEngine;
 /*
  * Simple dummy projectile prefab script.
  */
-public class ProjectileTest : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
     // How much health this projectile removes from an enemy
     public int m_Strength = 1;
