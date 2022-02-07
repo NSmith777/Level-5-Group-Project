@@ -1,8 +1,5 @@
-﻿// System namespaces
-using System;
-// Unity namespaces
+﻿// Unity namespaces
 using UnityEngine;
-using UnityEngine.InputSystem.DualShock;
 
 /*
  * Rotates the DS4 GUI model to provide visualisation of gyroscope data.

@@ -3,8 +3,6 @@ using System;
 // Unity namespaces
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.DualShock;
 // Package namespaces
 using BezierSolution;
 
@@ -75,8 +73,6 @@ public class Player : MonoBehaviour
     void Update() {
         // We need our orientation relative to the forward dir against the spline path (tangent).
         m_Transform.rotation = Quaternion.LookRotation(m_BezierWalker.Spline.GetTangent(m_BezierWalker.NormalizedT));
-
-        Debug.Log(DS4.m_IsConnected);
 
         // Make sure a gamepad is plugged in
         if (DS4.m_IsConnected) {
