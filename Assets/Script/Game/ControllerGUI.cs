@@ -2,7 +2,7 @@
 using System;
 // Unity namespaces
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.DualShock;
 
 /*
  * Rotates the DS4 GUI model to provide visualisation of gyroscope data.
@@ -10,30 +10,20 @@ using UnityEngine.InputSystem;
 public class ControllerGUI : MonoBehaviour
 {
     // Cached vars
-    private Gamepad m_Gamepad = null;
     private Transform m_Transform;
 
     void Start()
     {
-        m_Gamepad = DS4.GetController();
         m_Transform = transform;
     }
 
     void Update()
     {
         // Make sure a gamepad is plugged in
-        if (m_Gamepad == null) {
-            try {
-                m_Gamepad = DS4.GetController();
-            }
-            catch (Exception e) {
-                Console.WriteLine(e);
-            }
-        }
-        else
+        if (DS4.m_IsConnected)
         {
             // Press circle button to reset rotation
-            if (m_Gamepad.buttonEast.isPressed)
+            if (DS4.GetController().buttonEast.isPressed)
                 m_Transform.rotation = Quaternion.identity;
 
             // Apply processed rotation to the gamepad mesh

@@ -1232,25 +1232,18 @@ MonoBehaviour:
     - {fileID: 270651132}
     - {fileID: 665018068}
     m_StopAt: 0.015
-    m_Time: 18
   - m_EnableEnmRails: []
     m_StopAt: 0.14
-    m_Time: 3
   - m_EnableEnmRails: []
     m_StopAt: 0.225
-    m_Time: 3
   - m_EnableEnmRails: []
     m_StopAt: 0.31
-    m_Time: 3
   - m_EnableEnmRails: []
     m_StopAt: 0.421
-    m_Time: 3
   - m_EnableEnmRails: []
     m_StopAt: 0.65
-    m_Time: 3
   - m_EnableEnmRails: []
     m_StopAt: 0.77
-    m_Time: 3
   m_RailSpeed: 4
   m_BobAnimSpeed: 0.02
   m_BobAnimStrength: 0.15

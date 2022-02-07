@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.InputSystem.DualShock;
 
 /*
  * Singleton class in which all scripts derive DualShock 4 (DS4) gamepad input from.
@@ -11,6 +12,8 @@ using UnityEngine.InputSystem.Controls;
  */
 public class DS4
 {
+    public static bool m_IsConnected = false;
+
     // Gyroscope data
     private static ButtonControl m_GyroX, m_GyroY, m_GyroZ;
     // Touchpad state data
@@ -27,30 +30,36 @@ public class DS4
         // Overwrite the default Gamepad layout
         InputSystem.RegisterLayoutOverride(layout, "DualShock4GamepadHID");
 
-        BindControls(Gamepad.current);
+        InputSystem.onDeviceChange += onInputDeviceChange;
+
+        if (DualShockGamepad.current != null)
+            m_IsConnected = true;
     }
 
     /*
      * Binds the custom gyro/touchpad entires to our local vars to be read by the game.
      */
-    private static void BindControls(Gamepad ds4) {
-        // Bind raw gyroscope readings
-        m_GyroX = ds4.GetChildControl<ButtonControl>("gyro X 14");
-        m_GyroY = ds4.GetChildControl<ButtonControl>("gyro Y 16");
-        m_GyroZ = ds4.GetChildControl<ButtonControl>("gyro Z 18");
+    private static void BindControls(DualShockGamepad ds4) {
+        if (ds4 != null)
+        {
+            // Bind raw gyroscope readings
+            m_GyroX = ds4.GetChildControl<ButtonControl>("gyro X 14");
+            m_GyroY = ds4.GetChildControl<ButtonControl>("gyro Y 16");
+            m_GyroZ = ds4.GetChildControl<ButtonControl>("gyro Z 18");
 
-        // Bind raw touchpad readings
-        m_Touch1X = ds4.GetChildControl<ButtonControl>("touch 1 36");
-        m_Touch1Split = ds4.GetChildControl<ButtonControl>("touch 1 37");
-        m_Touch1Y = ds4.GetChildControl<ButtonControl>("touch 1 38");
-        m_Touch1Down = ds4.GetChildControl<DiscreteButtonControl>("touch 1 down");
+            // Bind raw touchpad readings
+            m_Touch1X = ds4.GetChildControl<ButtonControl>("touch 1 36");
+            m_Touch1Split = ds4.GetChildControl<ButtonControl>("touch 1 37");
+            m_Touch1Y = ds4.GetChildControl<ButtonControl>("touch 1 38");
+            m_Touch1Down = ds4.GetChildControl<DiscreteButtonControl>("touch 1 down");
+        }
     }
 
     /*
      * Returns the active gamepad currently bound to Input System.
      */
-    public static Gamepad GetController() {
-        return Gamepad.current;
+    public static DualShockGamepad GetController() {
+        return DualShockGamepad.current;
     }
 
     /*
@@ -95,5 +104,41 @@ public class DS4
      */
     private static float ProcessRawData(float data) {
         return data > 0.5 ? 1 - data : -data;
+    }
+
+    /*
+     * Manages DualShock connection/disconnection events.
+     */
+    static void onInputDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        Debug.Log("onInputDeviceChange");
+        switch (change)
+        {
+            case InputDeviceChange.Added:
+                Debug.Log("Device added: " + device);
+
+                if(device is DualShockGamepad)
+                {
+                    // Re-bind extra DS4 controls
+                    BindControls(DualShockGamepad.current);
+
+                    device.MakeCurrent();
+
+                    m_IsConnected = true;
+                }
+
+                break;
+            case InputDeviceChange.Disconnected:
+                Debug.Log("Device removed: " + device);
+
+                if (device is DualShockGamepad)
+                {
+                    Debug.Log("Device was DualShock, diabling m_IsConnected...");
+
+                    m_IsConnected = false;
+                }
+
+                break;
+        }
     }
 }

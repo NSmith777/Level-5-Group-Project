@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.DualShock;
 // Package namespaces
 using BezierSolution;
 
@@ -44,7 +45,6 @@ public class Player : MonoBehaviour
 
     // Cached vars
     private BezierWalkerWithSpeed m_BezierWalker;
-    private Gamepad m_Gamepad = null;
     private Transform m_Transform;
 
     // Keep track of local gyroscope rotation
@@ -69,33 +69,26 @@ public class Player : MonoBehaviour
         m_BezierWalker = GetComponent<BezierWalkerWithSpeed>();
         m_BezierWalker.speed = m_RailSpeed;
 
-        m_Gamepad = DS4.GetController();
         m_Transform = transform;
     }
 
     void Update() {
-        // Make sure a gamepad is plugged in
-        if (m_Gamepad == null) {
-            try {
-                m_Gamepad = DS4.GetController();
-            }
-            catch (Exception e) {
-                Console.WriteLine(e);
-            }
-        }
-        else {
-            // Press circle button to reset rotation (TODO: Smooth rotation transition)
-            if (m_Gamepad.buttonEast.isPressed)
-                m_GyroRotation = Quaternion.identity;
+        // We need our orientation relative to the forward dir against the spline path (tangent).
+        m_Transform.rotation = Quaternion.LookRotation(m_BezierWalker.Spline.GetTangent(m_BezierWalker.NormalizedT));
 
-            // Produce a walking animation by bobbing up/down using sine math
-            if (m_BezierWalker.speed != 0) {
-                transform.position += new Vector3(0, m_BobAnimStrength * Mathf.Sin(m_WalkAnimSine), 0);
-                m_WalkAnimSine += m_BobAnimSpeed * m_RailSpeed;
-            }
+        Debug.Log(DS4.m_IsConnected);
+
+        // Make sure a gamepad is plugged in
+        if (DS4.m_IsConnected) {
+            // Press circle button to reset rotation (TODO: Smooth rotation transition)
+            if (DS4.GetController().circleButton.isPressed)
+                m_GyroRotation = Quaternion.identity;
 
             // Poll gyroscope rotation data
             m_GyroRotation *= DS4.GetRotation(m_GyroSensitivity * Time.deltaTime);
+
+            // Apply processed rotation to this player.
+            m_Transform.rotation *= m_GyroRotation;
 
             // Poll touch data to shoot the assigned projectile
             if (DS4.IsTouchHeld()) {
@@ -146,14 +139,16 @@ public class Player : MonoBehaviour
                 m_IsNotTouched = true;
                 m_HasShotProjectile = false;
             }
-
-            // Apply processed rotation to this player.
-            // We need our orientation relative to the forward dir against the spline path (tangent).
-            m_Transform.rotation = Quaternion.LookRotation(m_BezierWalker.Spline.GetTangent(m_BezierWalker.NormalizedT));
-            m_Transform.rotation *= m_GyroRotation;
         }
 
-        if(m_IsMoving)
+        // Produce a walking animation by bobbing up/down using sine math
+        if (m_BezierWalker.speed != 0)
+        {
+            transform.position += new Vector3(0, m_BobAnimStrength * Mathf.Sin(m_WalkAnimSine), 0);
+            m_WalkAnimSine += m_BobAnimSpeed * m_RailSpeed;
+        }
+
+        if (m_IsMoving)
         {
             if(m_CurrentStop < m_StopPoints.Length)
             {
