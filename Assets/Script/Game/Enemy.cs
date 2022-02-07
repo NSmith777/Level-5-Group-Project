@@ -3,21 +3,30 @@ using System;
 using System.Collections;
 // Unity namespaces
 using UnityEngine;
+using UnityEngine.UI;
 // Package namespaces
 using BezierSolution;
 
 public class Enemy : MonoBehaviour
 {
-    // Maximum enemy health
-    public float m_MaxHealth = 2f;
-    // Current enemy health
-    public float m_Health = 2f;
     // Amount this enemy will add to score when destroyed
     public int m_ScoreAdd = 100;
+
+    [Header("Movement")]
     // Enemy movement speed across the path
     public float m_Speed = 3f;
     // User defined points to stop and shoot the player at
     public StopPoint[] m_StopPoints;
+
+    [Header("Health")]
+    // Maximum enemy health
+    public float m_MaxHealth = 2f;
+    // Current enemy health
+    public float m_Health = 2f;
+    // Canvas containing health bar UI
+    public Canvas m_HealthCanvas;
+    // Health bar UI
+    public Image m_HealthBar;
 
     // Cached vars
     private BezierWalkerWithSpeed m_BezierWalker;
@@ -78,6 +87,12 @@ public class Enemy : MonoBehaviour
 
             Destroy(gameObject);
         }
+
+        // Always billboard the health bar UI
+        m_HealthCanvas.transform.rotation = m_Player.transform.rotation;
+
+        // Update health bar UI
+        m_HealthBar.fillAmount = m_Health / m_MaxHealth;
     }
 
     /*
