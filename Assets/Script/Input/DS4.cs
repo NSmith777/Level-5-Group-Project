@@ -33,7 +33,12 @@ public class DS4
         InputSystem.onDeviceChange += onInputDeviceChange;
 
         if (DualShockGamepad.current != null)
+        {
+            // Bind extra DS4 controls from custom layout
+            BindControls(DualShockGamepad.current);
+
             m_IsConnected = true;
+        }
     }
 
     /*
