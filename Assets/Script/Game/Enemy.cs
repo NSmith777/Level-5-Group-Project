@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour
 {
     // Amount this enemy will add to score when destroyed
     public int m_ScoreAdd = 100;
+    // Enemy destroyed effect
+    public GameObject m_DestroyEffect;
 
     [Header("Movement")]
     // Enemy movement speed across the path
@@ -105,6 +107,9 @@ public class Enemy : MonoBehaviour
         if(m_Health <= 0)
         {
             m_Player.GetComponent<Player>().m_Score += m_ScoreAdd;
+
+            if (m_DestroyEffect != null)
+                Instantiate(m_DestroyEffect, m_Transform.position, Quaternion.Euler(-90, 0, 0));
 
             Destroy(gameObject);
         }

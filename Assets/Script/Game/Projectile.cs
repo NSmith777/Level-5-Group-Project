@@ -16,6 +16,11 @@ public class Projectile : MonoBehaviour
     public float m_AliveTime = 4f;
     // Does this projectile damage the player?
     public bool m_CanHarmPlayer = false;
+    // Projectile hit effect
+    public GameObject m_ProjectileHitEffect;
+
+    // Cached vars
+    private Transform m_Transform;
 
     /*
      * Waits for X seconds, then destroys this projectile.
@@ -28,6 +33,8 @@ public class Projectile : MonoBehaviour
 
     void Start()
     {
+        m_Transform = transform;
+
         StartCoroutine(kill());
     }
 
@@ -52,12 +59,20 @@ public class Projectile : MonoBehaviour
                 if (hit.collider.CompareTag("Enemy"))
                 {
                     hit.collider.GetComponent<Enemy>().m_Health -= m_Strength;
+
+                    if(m_ProjectileHitEffect != null)
+                        Instantiate(m_ProjectileHitEffect, m_Transform.position, Quaternion.Euler(-90, 0, 0));
+
                     Destroy(gameObject);
                 }
                 // Destroy incoming collided enemy projectiles 
                 if(hit.collider.CompareTag("Projectile"))
                 {
                     Destroy(hit.collider.gameObject);
+
+                    if (m_ProjectileHitEffect != null)
+                        Instantiate(m_ProjectileHitEffect, m_Transform.position, Quaternion.Euler(-90, 0, 0));
+
                     Destroy(gameObject);
                 }
             }

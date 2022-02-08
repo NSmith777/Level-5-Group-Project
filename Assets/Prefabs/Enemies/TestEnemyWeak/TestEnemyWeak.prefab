@@ -93,6 +93,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ScoreAdd: 100
+  m_DestroyEffect: {fileID: 2654687198033457448, guid: b6fe7de77690fa544a6a1d368ed9b3f7,
+    type: 3}
   m_Speed: 3
   m_StopPoints:
   - m_StopAt: 0.25
