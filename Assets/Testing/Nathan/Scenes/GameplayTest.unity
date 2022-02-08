@@ -1255,8 +1255,12 @@ MonoBehaviour:
   m_ScoreCounter: {fileID: 112832243}
   m_Time: 0
   m_TimeCounter: {fileID: 1208541822}
-  m_ProgressBar: {fileID: 1158279428}
+  m_MaxHealth: 100
+  m_Health: 100
+  m_HealthCounter: {fileID: 1356380722}
+  m_HealthBar: {fileID: 1305058657}
   m_ProgressPercent: {fileID: 1853943803}
+  m_ProgressBar: {fileID: 1158279428}
 --- !u!114 &353367558
 MonoBehaviour:
   m_ObjectHideFlags: 0

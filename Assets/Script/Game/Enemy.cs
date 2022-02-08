@@ -28,6 +28,10 @@ public class Enemy : MonoBehaviour
     // Health bar UI
     public Image m_HealthBar;
 
+    [Header("Shooting")]
+    public GameObject m_Projectile;
+    public float m_ShootFrequency;
+
     // Cached vars
     private BezierWalkerWithSpeed m_BezierWalker;
     private Transform m_Transform;
@@ -37,6 +41,8 @@ public class Enemy : MonoBehaviour
     private int m_CurrentStop = 0;
     // Is this enemy currently moving?
     private bool m_IsMoving = true;
+
+    private bool m_IsShooting = true;
 
     [Serializable]
     public struct StopPoint
@@ -68,6 +74,17 @@ public class Enemy : MonoBehaviour
         m_CurrentStop++;
     }
 
+    IEnumerator ShootTimer()
+    {
+        m_IsShooting = false;
+
+        yield return new WaitForSeconds(m_ShootFrequency);
+
+        Instantiate(m_Projectile, m_Transform.position, m_Transform.rotation);
+
+        m_IsShooting = true;
+    }
+
     void Update()
     {
         // Keep checking for when the enemy reaches the next stop point
@@ -76,6 +93,10 @@ public class Enemy : MonoBehaviour
             if (m_BezierWalker.NormalizedT >= m_StopPoints[m_CurrentStop].m_StopAt)
                 StartCoroutine(MovementTimer());
         }
+
+        // Periodically shoot assigned projectile towards player
+        if (m_IsShooting && m_Projectile != null)
+            StartCoroutine(ShootTimer());
 
         // Always face towards the player
         m_Transform.rotation = Quaternion.Slerp(m_Transform.rotation, Quaternion.LookRotation(m_Player.transform.position - m_Transform.position), 0.05f);

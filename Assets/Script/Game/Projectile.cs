@@ -14,6 +14,8 @@ public class Projectile : MonoBehaviour
     public float m_Speed = 10f;
     // How long will this projectile stay alive for?
     public float m_AliveTime = 4f;
+    // Does this projectile damage the player?
+    public bool m_CanHarmPlayer = false;
 
     /*
      * Waits for X seconds, then destroys this projectile.
@@ -35,10 +37,29 @@ public class Projectile : MonoBehaviour
 
         if(Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, next_step))
         {
-            if(hit.collider.CompareTag("Enemy"))
+            if(m_CanHarmPlayer)
             {
-                hit.collider.GetComponent<Enemy>().m_Health -= m_Strength;
-                Destroy(gameObject);
+                // Deal damage to the player
+                if (hit.collider.CompareTag("Player"))
+                {
+                    hit.collider.GetComponent<Player>().m_Health -= m_Strength;
+                    Destroy(gameObject);
+                }
+            }
+            else
+            {
+                // Deal damage to collided enemies
+                if (hit.collider.CompareTag("Enemy"))
+                {
+                    hit.collider.GetComponent<Enemy>().m_Health -= m_Strength;
+                    Destroy(gameObject);
+                }
+                // Destroy incoming collided enemy projectiles 
+                if(hit.collider.CompareTag("Projectile"))
+                {
+                    Destroy(hit.collider.gameObject);
+                    Destroy(gameObject);
+                }
             }
         }
 

@@ -41,8 +41,12 @@ public class Player : MonoBehaviour
     public Text m_ScoreCounter;
     public float m_Time = 0f;
     public Text m_TimeCounter;
-    public Image m_ProgressBar;
+    public int m_MaxHealth = 100;
+    public int m_Health = 100;
+    public Text m_HealthCounter;
+    public Image m_HealthBar;
     public Text m_ProgressPercent;
+    public Image m_ProgressBar;
 
     // Cached vars
     private BezierWalkerWithSpeed m_BezierWalker;
@@ -190,5 +194,8 @@ public class Player : MonoBehaviour
 
         m_Time += Time.deltaTime;
         m_TimeCounter.text = TimeSpan.FromSeconds(m_Time).ToString(@"mm\:ss\.fff");
+
+        m_HealthCounter.text = m_Health.ToString();
+        m_HealthBar.fillAmount = (float)m_Health / m_MaxHealth;
     }
 }
