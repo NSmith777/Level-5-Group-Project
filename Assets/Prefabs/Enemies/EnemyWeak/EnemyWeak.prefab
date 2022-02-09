@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3751233295171463973}
   - component: {fileID: 4677111632115898933}
   m_Layer: 0
-  m_Name: TestEnemyWeak
+  m_Name: EnemyWeak
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,7 +143,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -0}
-  m_SizeDelta: {x: 0.75, y: 0.08}
+  m_SizeDelta: {x: 0.795, y: 0.125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8181441480815009480
 CanvasRenderer:
@@ -166,12 +166,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7735849, g: 0.28097185, b: 0.28097185, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0ac6f19598b14cb45bd6c73dbc74d31a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c38eb4cd81e6cb546aec05305c9dcfea, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -339,12 +339,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 2063cbef7a847f64c9c7c4c426f6237c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

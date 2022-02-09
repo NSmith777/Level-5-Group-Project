@@ -225,9 +225,9 @@ public class Player : MonoBehaviour
         m_ScoreCounter.text = m_Score.ToString().PadLeft(8, '0');
 
         m_Time += Time.deltaTime;
-        m_TimeCounter.text = TimeSpan.FromSeconds(m_Time).ToString(@"mm\:ss\.fff");
+        m_TimeCounter.text = TimeSpan.FromSeconds(m_Time).ToString(@"mm\:ss\.f");
 
-        m_HealthCounter.text = m_Health.ToString();
+        m_HealthCounter.text = m_Health + "/" + m_MaxHealth;
         m_HealthBar.fillAmount = (float)m_Health / m_MaxHealth;
     }
 }
