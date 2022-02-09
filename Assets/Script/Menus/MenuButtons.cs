@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class MenuButtons : MonoBehaviour
 {
-
-    public GameObject _settingsPanel; //The UI panel containing the settings and all its components.
-    public GameObject _LevelSelectPanel; //The UI panel containing the Level selections and all its components.
     public GameObject _menuPanel; //The UI panel containing the menu options and all its components.
+    public GameObject _LevelSelectPanel; //The UI panel containing the Level selections and all its components.
+    public GameObject _optionsPanel; //The UI panel containing the settings and all its components.
+    
     bool _settingsBool;
     bool _levelBool;
 
@@ -48,13 +48,13 @@ public class MenuButtons : MonoBehaviour
     public void OpenSettings()
     {
         _menuPanel.SetActive(false);
-        _settingsPanel.SetActive(true);
+        _optionsPanel.SetActive(true);
         _settingsBool = true;
     }
 
     public void CloseSettings()
     {
-        _settingsPanel.SetActive(false);
+        _optionsPanel.SetActive(false);
         _menuPanel.SetActive(true);
         _settingsBool = false;
     }
@@ -63,5 +63,4 @@ public class MenuButtons : MonoBehaviour
     {
         Application.Quit();
     }
-
 }
