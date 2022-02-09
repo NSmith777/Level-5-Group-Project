@@ -30,10 +30,10 @@ public class DS4
         // Overwrite the default Gamepad layout
         InputSystem.RegisterLayoutOverride(layout, "DualShock4GamepadHID");
 
-        InputSystem.onDeviceChange += onInputDeviceChange;
-
-        if (DualShockGamepad.current != null)
+        if (DualShockGamepad.current != null && Gamepad.current is DualShockGamepad)
         {
+            Debug.Log("DualShock connected...");
+
             // Bind extra DS4 controls from custom layout
             BindControls(DualShockGamepad.current);
 
@@ -44,7 +44,7 @@ public class DS4
     /*
      * Binds the custom gyro/touchpad entires to our local vars to be read by the game.
      */
-    private static void BindControls(DualShockGamepad ds4) {
+    public static void BindControls(DualShockGamepad ds4) {
         if (ds4 != null)
         {
             // Bind raw gyroscope readings
@@ -109,41 +109,5 @@ public class DS4
      */
     private static float ProcessRawData(float data) {
         return data > 0.5 ? 1 - data : -data;
-    }
-
-    /*
-     * Manages DualShock connection/disconnection events.
-     */
-    static void onInputDeviceChange(InputDevice device, InputDeviceChange change)
-    {
-        Debug.Log("onInputDeviceChange");
-        switch (change)
-        {
-            case InputDeviceChange.Added:
-                Debug.Log("Device added: " + device);
-
-                if(device is DualShockGamepad)
-                {
-                    // Re-bind extra DS4 controls
-                    BindControls(DualShockGamepad.current);
-
-                    device.MakeCurrent();
-
-                    m_IsConnected = true;
-                }
-
-                break;
-            case InputDeviceChange.Disconnected:
-                Debug.Log("Device removed: " + device);
-
-                if (device is DualShockGamepad)
-                {
-                    Debug.Log("Device was DualShock, disabling m_IsConnected...");
-
-                    m_IsConnected = false;
-                }
-
-                break;
-        }
     }
 }

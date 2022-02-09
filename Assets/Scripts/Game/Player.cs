@@ -72,13 +72,31 @@ public class Player : MonoBehaviour
         m_BezierWalker.speed = m_RailSpeed;
 
         m_Transform = transform;
+
+        // HACK: Indirectly call our global input constructor
+        GlobalInput.m_Init = true;
+    }
+
+    void FireProjectile()
+    {
+        // Fire the projectile from the centre-bottom of our first-person view
+        Vector3 instantiate_pos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.0f, Camera.main.nearClipPlane));
+
+        // Fire the projectile directly towards the hit point, otherwise just blindly fire forwards
+        if (Physics.Raycast(m_Transform.position, m_Transform.forward, out RaycastHit hit, 300.0f))
+            Instantiate(m_Projectile, instantiate_pos, Quaternion.LookRotation(hit.point - instantiate_pos));
+        else
+            Instantiate(m_Projectile, instantiate_pos, m_Transform.rotation);
     }
 
     void Update() {
         // We need our orientation relative to the forward dir against the spline path (tangent).
         m_Transform.rotation = Quaternion.LookRotation(m_BezierWalker.Spline.GetTangent(m_BezierWalker.NormalizedT));
 
-        // Make sure a gamepad is plugged in
+        // Apply processed rotation to this player.
+        m_Transform.rotation *= m_GyroRotation;
+
+        // PlayStation DualShock controls
         if (DS4.m_IsConnected) {
             // Press circle button to reset rotation (TODO: Smooth rotation transition)
             if (DS4.GetController().circleButton.isPressed)
@@ -87,8 +105,7 @@ public class Player : MonoBehaviour
             // Poll gyroscope rotation data
             m_GyroRotation *= DS4.GetRotation(m_GyroSensitivity * Time.deltaTime);
 
-            // Apply processed rotation to this player.
-            m_Transform.rotation *= m_GyroRotation;
+            m_GyroRotation *= Quaternion.Euler(-DS4.GetController().rightStick.y.ReadValue(), DS4.GetController().rightStick.x.ReadValue(), 0);
 
             // Poll touch data to shoot the assigned projectile
             if (DS4.IsTouchHeld()) {
@@ -118,14 +135,7 @@ public class Player : MonoBehaviour
                 // Second, we make sure we haven't already fired a projectile while our finger has currently been held on the touchpad.
                 // Lastly, check that the finger swipe motion is upwards.
                 if (tpad_delta.magnitude > 50f && !m_HasShotProjectile && shoot_angle < 45f) {
-                    // Fire the projectile from the centre-bottom of our first-person view
-                    Vector3 instantiate_pos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.0f, Camera.main.nearClipPlane));
-
-                    // Fire the projectile directly towards the hit point, otherwise just blindly fire forwards
-                    if (Physics.Raycast(m_Transform.position, m_Transform.forward, out RaycastHit hit, 300.0f))
-                        Instantiate(m_Projectile, instantiate_pos, Quaternion.LookRotation(hit.point - instantiate_pos));
-                    else
-                        Instantiate(m_Projectile, instantiate_pos, m_Transform.rotation);
+                    FireProjectile();
 
                     // Make sure we don't run this again until we release our finger off the touchpad
                     m_HasShotProjectile = true;
@@ -137,6 +147,21 @@ public class Player : MonoBehaviour
             else {
                 // Reset the touchpad state
                 m_IsNotTouched = true;
+                m_HasShotProjectile = false;
+            }
+        }
+        // XInput gamepad controls
+        if(XInput.m_IsConnected) {
+            m_GyroRotation *= Quaternion.Euler(-XInput.GetController().rightStick.y.ReadValue(), XInput.GetController().rightStick.x.ReadValue(), 0);
+
+            if (XInput.GetController().rightTrigger.ReadValue() > 0.8f) {
+                if(!m_HasShotProjectile) {
+                    FireProjectile();
+
+                    m_HasShotProjectile = true;
+                }
+            }
+            else {
                 m_HasShotProjectile = false;
             }
         }
