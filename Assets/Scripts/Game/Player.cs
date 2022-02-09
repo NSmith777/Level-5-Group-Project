@@ -152,7 +152,8 @@ public class Player : MonoBehaviour
         }
         // XInput gamepad controls
         if(XInput.m_IsConnected) {
-            m_GyroRotation *= Quaternion.Euler(-XInput.GetController().rightStick.y.ReadValue(), XInput.GetController().rightStick.x.ReadValue(), 0);
+            m_GyroRotation = Quaternion.AngleAxis(XInput.GetController().rightStick.x.ReadValue(), Vector3.up) * m_GyroRotation;
+            m_GyroRotation *= Quaternion.AngleAxis(-XInput.GetController().rightStick.y.ReadValue(), Vector3.right);
 
             if (XInput.GetController().rightTrigger.ReadValue() > 0.8f) {
                 if(!m_HasShotProjectile) {
