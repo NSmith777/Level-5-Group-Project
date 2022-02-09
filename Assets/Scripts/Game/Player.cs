@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
     }
 
     [Header("Rotation")]
+    // Analog stick sensitivity multiplier
+    public float m_AnalogSensitivity = 80f;
     // Gyro motion sensitivity multiplier
     public float m_GyroSensitivity = 4000f;
 
@@ -105,7 +107,10 @@ public class Player : MonoBehaviour
             // Poll gyroscope rotation data
             m_GyroRotation *= DS4.GetRotation(m_GyroSensitivity * Time.deltaTime);
 
-            m_GyroRotation *= Quaternion.Euler(-DS4.GetController().rightStick.y.ReadValue(), DS4.GetController().rightStick.x.ReadValue(), 0);
+            m_GyroRotation *= Quaternion.Euler(
+                -DS4.GetController().rightStick.y.ReadValue() * m_AnalogSensitivity * Time.deltaTime,
+                DS4.GetController().rightStick.x.ReadValue() * m_AnalogSensitivity * Time.deltaTime,
+                0);
 
             // Poll touch data to shoot the assigned projectile
             if (DS4.IsTouchHeld()) {
@@ -152,8 +157,9 @@ public class Player : MonoBehaviour
         }
         // XInput gamepad controls
         if(XInput.m_IsConnected) {
-            m_GyroRotation = Quaternion.AngleAxis(XInput.GetController().rightStick.x.ReadValue(), Vector3.up) * m_GyroRotation;
-            m_GyroRotation *= Quaternion.AngleAxis(-XInput.GetController().rightStick.y.ReadValue(), Vector3.right);
+            // Tilt right analog stick to aim the player
+            m_GyroRotation = Quaternion.AngleAxis(XInput.GetController().rightStick.x.ReadValue() * m_AnalogSensitivity * Time.deltaTime, Vector3.up) * m_GyroRotation;
+            m_GyroRotation *= Quaternion.AngleAxis(-XInput.GetController().rightStick.y.ReadValue() * m_AnalogSensitivity * Time.deltaTime, Vector3.right);
 
             if (XInput.GetController().rightTrigger.ReadValue() > 0.8f) {
                 if(!m_HasShotProjectile) {
