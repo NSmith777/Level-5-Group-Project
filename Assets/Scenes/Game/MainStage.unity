@@ -9511,36 +9511,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3325231690075083930, guid: 719047710f86d1e44a2175361e054c11,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 3325231690075083930, guid: 719047710f86d1e44a2175361e054c11,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 3325231690075083930, guid: 719047710f86d1e44a2175361e054c11,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3325231690075083930, guid: 719047710f86d1e44a2175361e054c11,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 3325231690075083930, guid: 719047710f86d1e44a2175361e054c11,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -400
-      objectReference: {fileID: 0}
-    - target: {fileID: 3325231690214395695, guid: 719047710f86d1e44a2175361e054c11,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 3325231690436891035, guid: 719047710f86d1e44a2175361e054c11,
         type: 3}
       propertyPath: m_Name
@@ -9603,69 +9573,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3325231690436891037, guid: 719047710f86d1e44a2175361e054c11,
         type: 3}
-      propertyPath: m_StopPoints.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3325231690436891037, guid: 719047710f86d1e44a2175361e054c11,
-        type: 3}
-      propertyPath: m_StopPoints.Array.data[0].m_EnableEnmRails.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3325231690436891037, guid: 719047710f86d1e44a2175361e054c11,
-        type: 3}
-      propertyPath: m_StopPoints.Array.data[0].m_StopAt
-      value: 5.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 3325231690436891037, guid: 719047710f86d1e44a2175361e054c11,
-        type: 3}
-      propertyPath: m_StopPoints.Array.data[1].m_StopAt
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3325231690436891037, guid: 719047710f86d1e44a2175361e054c11,
-        type: 3}
-      propertyPath: m_StopPoints.Array.data[2].m_StopAt
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3325231690436891037, guid: 719047710f86d1e44a2175361e054c11,
-        type: 3}
-      propertyPath: m_StopPoints.Array.data[3].m_StopAt
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3325231690436891037, guid: 719047710f86d1e44a2175361e054c11,
-        type: 3}
       propertyPath: m_StopPoints.Array.data[0].m_EnableEnmRails.Array.data[0]
       value: 
       objectReference: {fileID: 536203315}
-    - target: {fileID: 3325231690436891037, guid: 719047710f86d1e44a2175361e054c11,
-        type: 3}
-      propertyPath: m_BobAnimStrength
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3325231690436891037, guid: 719047710f86d1e44a2175361e054c11,
-        type: 3}
-      propertyPath: m_RailSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3325231690436891037, guid: 719047710f86d1e44a2175361e054c11,
-        type: 3}
-      propertyPath: m_BobAnimSpeed
-      value: 3.5
-      objectReference: {fileID: 0}
     - target: {fileID: 3325231690436891038, guid: 719047710f86d1e44a2175361e054c11,
         type: 3}
       propertyPath: spline
       value: 
       objectReference: {fileID: 1514975658}
-    - target: {fileID: 3325231690521573151, guid: 719047710f86d1e44a2175361e054c11,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3325231690764945771, guid: 719047710f86d1e44a2175361e054c11,
-        type: 3}
-      propertyPath: m_Text
-      value: 000000
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 719047710f86d1e44a2175361e054c11, type: 3}
 --- !u!1001 &544313749
@@ -26790,7 +26705,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 204ab128b4faaa0478df0abb051cc8dc, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
