@@ -149,6 +149,13 @@ public class Player : MonoBehaviour
                 // Store this frame's touch position to use in the next frame
                 m_LastTouchPos = tpad1;
             }
+            else if (DS4.GetController().rightTrigger.ReadValue() > 0.8f) {
+                if (!m_HasShotProjectile) {
+                    FireProjectile();
+
+                    m_HasShotProjectile = true;
+                }
+            }
             else {
                 // Reset the touchpad state
                 m_IsNotTouched = true;
