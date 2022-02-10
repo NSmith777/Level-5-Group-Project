@@ -1,28 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// Unity namespaces
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class MenuButtons : MonoBehaviour
 {
-    public GameObject _menuPanel; //The UI panel containing the menu options and all its components.
-    public GameObject _LevelSelectPanel; //The UI panel containing the Level selections and all its components.
-    public GameObject _optionsPanel; //The UI panel containing the settings and all its components.
+    [Header("Root Menu")]
+    public GameObject m_RootMenuPanel;
+    public GameObject m_RootMenu_First;
+    [Header("Level Select")]
+    public GameObject m_LevelSelectPanel;
+    public GameObject m_LvlSel_First;
+    [Header("Controls")]
+    public GameObject m_ControlsPanel;
+    public GameObject m_Controls_First;
     
-    bool _settingsBool;
-    bool _levelBool;
+    bool m_IsLvlSelOpen;
+    bool m_IsControlsOpen;
 
-
-    private void Update()//updates every frame
+    private void Update()
     {
-        if (Input.GetKeyDown("escape")&& _levelBool==true)//If Esc key is pressed and level bool true, close level panel.
-        {
-            Invoke("CloseLevelSelect", 0f);
-        }
+        InputSystemUIInputModule UI_module = (InputSystemUIInputModule)EventSystem.current.currentInputModule;
+        InputAction cancel = UI_module.cancel.action;
 
-        else if (Input.GetKeyDown("escape") && _settingsBool == true)//If Esc key is pressed and settings bool true, close settings panel
+        if (cancel.triggered)
         {
-            Invoke("CloseSettings", 0f);
+            if (m_IsLvlSelOpen)
+                CloseLevelSelect();
+            else if (m_IsControlsOpen)
+                CloseControls();
         }
     }
 
@@ -33,30 +41,38 @@ public class MenuButtons : MonoBehaviour
 
     public void OpenLevelSelect()
     {
-        _menuPanel.SetActive(false);
-        _LevelSelectPanel.SetActive(true);
-        _levelBool = true;
+        m_RootMenuPanel.SetActive(false);
+        m_LevelSelectPanel.SetActive(true);
+        m_IsLvlSelOpen = true;
+
+        EventSystem.current.SetSelectedGameObject(m_LvlSel_First);
     }
 
     public void CloseLevelSelect()
     {
-        _LevelSelectPanel.SetActive(false);
-        _menuPanel.SetActive(true);
-        _levelBool = false;
+        m_LevelSelectPanel.SetActive(false);
+        m_RootMenuPanel.SetActive(true);
+        m_IsLvlSelOpen = false;
+
+        EventSystem.current.SetSelectedGameObject(m_RootMenu_First);
     }
 
-    public void OpenSettings()
+    public void OpenControls()
     {
-        _menuPanel.SetActive(false);
-        _optionsPanel.SetActive(true);
-        _settingsBool = true;
+        m_RootMenuPanel.SetActive(false);
+        m_ControlsPanel.SetActive(true);
+        m_IsControlsOpen = true;
+
+        EventSystem.current.SetSelectedGameObject(m_Controls_First);
     }
 
-    public void CloseSettings()
+    public void CloseControls()
     {
-        _optionsPanel.SetActive(false);
-        _menuPanel.SetActive(true);
-        _settingsBool = false;
+        m_ControlsPanel.SetActive(false);
+        m_RootMenuPanel.SetActive(true);
+        m_IsControlsOpen = false;
+
+        EventSystem.current.SetSelectedGameObject(m_RootMenu_First);
     }
 
     public void QuitGame()
