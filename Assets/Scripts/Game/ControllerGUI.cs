@@ -21,10 +21,10 @@ public class ControllerGUI : MonoBehaviour
         {
             // Press circle button to reset rotation
             if (DS4.GetController().buttonEast.isPressed)
-                m_Transform.rotation = Quaternion.identity;
+                m_Transform.localRotation = Quaternion.identity;
 
             // Apply processed rotation to the gamepad mesh
-            m_Transform.rotation *= DS4.GetRotation(Mathf.Rad2Deg * 80f * Time.deltaTime);
+            m_Transform.localRotation *= DS4.GetRotation(Mathf.Rad2Deg * 80f * Time.deltaTime);
         }
     }
 }
