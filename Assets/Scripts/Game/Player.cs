@@ -31,12 +31,6 @@ public class Player : MonoBehaviour
         public float m_StopAt;                  // Location on path the enemy should stop moving at (normalized time)
     }
 
-    [Header("Rotation")]
-    // Analog stick sensitivity multiplier
-    public float m_AnalogSensitivity = 80f;
-    // Gyro motion sensitivity multiplier
-    public float m_GyroSensitivity = 4000f;
-
     [Header("Weapons")]
     // Projectile prefab to shoot
     public GameObject m_Projectile;
@@ -109,11 +103,11 @@ public class Player : MonoBehaviour
                     m_GyroRotation = Quaternion.identity;
 
                 // Poll gyroscope rotation data
-                m_GyroRotation *= DS4.GetRotation(m_GyroSensitivity * Time.deltaTime);
+                m_GyroRotation *= DS4.GetRotation(GlobalSettingsMgr.m_GyroSensitive * Time.deltaTime);
 
                 m_GyroRotation *= Quaternion.Euler(
-                    -DS4.GetController().rightStick.y.ReadValue() * m_AnalogSensitivity * Time.deltaTime,
-                    DS4.GetController().rightStick.x.ReadValue() * m_AnalogSensitivity * Time.deltaTime,
+                    -DS4.GetController().rightStick.y.ReadValue() * GlobalSettingsMgr.m_AnalogSensitive * Time.deltaTime,
+                    DS4.GetController().rightStick.x.ReadValue() * GlobalSettingsMgr.m_AnalogSensitive * Time.deltaTime,
                     0);
 
                 // Poll touch data to shoot the assigned projectile
@@ -169,8 +163,8 @@ public class Player : MonoBehaviour
             // XInput gamepad controls
             else if(XInput.m_IsConnected) {
                 // Tilt right analog stick to aim the player
-                m_GyroRotation = Quaternion.AngleAxis(XInput.GetController().rightStick.x.ReadValue() * m_AnalogSensitivity * Time.deltaTime, Vector3.up) * m_GyroRotation;
-                m_GyroRotation *= Quaternion.AngleAxis(-XInput.GetController().rightStick.y.ReadValue() * m_AnalogSensitivity * Time.deltaTime, Vector3.right);
+                m_GyroRotation = Quaternion.AngleAxis(XInput.GetController().rightStick.x.ReadValue() * GlobalSettingsMgr.m_AnalogSensitive * Time.deltaTime, Vector3.up) * m_GyroRotation;
+                m_GyroRotation *= Quaternion.AngleAxis(-XInput.GetController().rightStick.y.ReadValue() * GlobalSettingsMgr.m_AnalogSensitive * Time.deltaTime, Vector3.right);
 
                 if (XInput.GetController().rightTrigger.ReadValue() > 0.8f) {
                     if(!m_HasShotProjectile) {

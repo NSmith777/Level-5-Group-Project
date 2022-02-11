@@ -13,6 +13,9 @@ public class PauseManager : MonoBehaviour
     public GameObject m_PausePanel;
     public GameObject m_Pause_First;
 
+    public GameObject m_SettingsPanel;
+    public GameObject m_Settings_First;
+
     bool m_IsInRootMenu = true;
 
     void Update()
@@ -57,6 +60,24 @@ public class PauseManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
 
         Time.timeScale = 1;
+    }
+
+    public void OpenSettings()
+    {
+        m_IsInRootMenu = false;
+        m_SettingsPanel.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(m_Settings_First);
+    }
+
+    public void CloseSettings()
+    {
+        m_IsInRootMenu = true;
+        m_SettingsPanel.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(m_Pause_First);
+
+        PlayerPrefs.Save();
     }
 
     public void ExitGame()
