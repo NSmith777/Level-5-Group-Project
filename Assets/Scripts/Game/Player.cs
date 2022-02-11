@@ -101,85 +101,87 @@ public class Player : MonoBehaviour
         // Apply processed rotation to this player.
         m_Transform.rotation *= m_GyroRotation;
 
-        // PlayStation DualShock controls
-        if (DS4.m_IsConnected) {
-            // Press circle button to reset rotation (TODO: Smooth rotation transition)
-            if (DS4.GetController().circleButton.isPressed)
-                m_GyroRotation = Quaternion.identity;
+        if(!GlobalPauseMgr.m_IsPaused) {
+            // PlayStation DualShock controls
+            if (DS4.m_IsConnected) {
+                // Press circle button to reset rotation (TODO: Smooth rotation transition)
+                if (DS4.GetController().circleButton.isPressed)
+                    m_GyroRotation = Quaternion.identity;
 
-            // Poll gyroscope rotation data
-            m_GyroRotation *= DS4.GetRotation(m_GyroSensitivity * Time.deltaTime);
+                // Poll gyroscope rotation data
+                m_GyroRotation *= DS4.GetRotation(m_GyroSensitivity * Time.deltaTime);
 
-            m_GyroRotation *= Quaternion.Euler(
-                -DS4.GetController().rightStick.y.ReadValue() * m_AnalogSensitivity * Time.deltaTime,
-                DS4.GetController().rightStick.x.ReadValue() * m_AnalogSensitivity * Time.deltaTime,
-                0);
+                m_GyroRotation *= Quaternion.Euler(
+                    -DS4.GetController().rightStick.y.ReadValue() * m_AnalogSensitivity * Time.deltaTime,
+                    DS4.GetController().rightStick.x.ReadValue() * m_AnalogSensitivity * Time.deltaTime,
+                    0);
 
-            // Poll touch data to shoot the assigned projectile
-            if (DS4.IsTouchHeld()) {
-                Vector2Int tpad1 = DS4.GetTouch();
+                // Poll touch data to shoot the assigned projectile
+                if (DS4.IsTouchHeld()) {
+                    Vector2Int tpad1 = DS4.GetTouch();
 
-                // If we've just (re-)touched down on the touchpad, then store the current touch position
-                if (m_IsNotTouched) {
+                    // If we've just (re-)touched down on the touchpad, then store the current touch position
+                    if (m_IsNotTouched) {
+                        m_LastTouchPos = tpad1;
+                        m_IsNotTouched = false;
+                    }
+
+                    // Calculate distance vector in which our finger swipes across the touchpad
+                    Vector3 tpad_delta = new Vector3(
+                        tpad1.x - m_LastTouchPos.x,
+                        0,
+                        -(tpad1.y - m_LastTouchPos.y)
+                        );
+
+                    Debug.DrawRay(m_Transform.position, m_Transform.forward * 300.0f, Color.green);
+
+                    // Calculate touchpad swipe angle
+                    float shoot_angle = Mathf.Abs(Vector3.Angle(tpad_delta, Vector3.forward));
+
+                    // Here, three checks are performed in order to shoot a projectile.
+                    // First, we see if the player has swiped across the touchpad fast enough, as per our swipe sensitivity setting.
+                    // (TODO: Add configurable finger swipe sensitivity setting and add a UI option for it!)
+                    // Second, we make sure we haven't already fired a projectile while our finger has currently been held on the touchpad.
+                    // Lastly, check that the finger swipe motion is upwards.
+                    if (tpad_delta.magnitude > 50f && !m_HasShotProjectile && shoot_angle < 45f) {
+                        FireProjectile();
+
+                        // Make sure we don't run this again until we release our finger off the touchpad
+                        m_HasShotProjectile = true;
+                    }
+
+                    // Store this frame's touch position to use in the next frame
                     m_LastTouchPos = tpad1;
-                    m_IsNotTouched = false;
                 }
+                else if (DS4.GetController().rightTrigger.ReadValue() > 0.8f) {
+                    if (!m_HasShotProjectile) {
+                        FireProjectile();
 
-                // Calculate distance vector in which our finger swipes across the touchpad
-                Vector3 tpad_delta = new Vector3(
-                    tpad1.x - m_LastTouchPos.x,
-                    0,
-                    -(tpad1.y - m_LastTouchPos.y)
-                    );
-
-                Debug.DrawRay(m_Transform.position, m_Transform.forward * 300.0f, Color.green);
-
-                // Calculate touchpad swipe angle
-                float shoot_angle = Mathf.Abs(Vector3.Angle(tpad_delta, Vector3.forward));
-
-                // Here, three checks are performed in order to shoot a projectile.
-                // First, we see if the player has swiped across the touchpad fast enough, as per our swipe sensitivity setting.
-                // (TODO: Add configurable finger swipe sensitivity setting and add a UI option for it!)
-                // Second, we make sure we haven't already fired a projectile while our finger has currently been held on the touchpad.
-                // Lastly, check that the finger swipe motion is upwards.
-                if (tpad_delta.magnitude > 50f && !m_HasShotProjectile && shoot_angle < 45f) {
-                    FireProjectile();
-
-                    // Make sure we don't run this again until we release our finger off the touchpad
-                    m_HasShotProjectile = true;
+                        m_HasShotProjectile = true;
+                    }
                 }
-
-                // Store this frame's touch position to use in the next frame
-                m_LastTouchPos = tpad1;
-            }
-            else if (DS4.GetController().rightTrigger.ReadValue() > 0.8f) {
-                if (!m_HasShotProjectile) {
-                    FireProjectile();
-
-                    m_HasShotProjectile = true;
+                else {
+                    // Reset the touchpad state
+                    m_IsNotTouched = true;
+                    m_HasShotProjectile = false;
                 }
             }
-            else {
-                // Reset the touchpad state
-                m_IsNotTouched = true;
-                m_HasShotProjectile = false;
-            }
-        }
-        // XInput gamepad controls
-        if(XInput.m_IsConnected) {
-            // Tilt right analog stick to aim the player
-            m_GyroRotation = Quaternion.AngleAxis(XInput.GetController().rightStick.x.ReadValue() * m_AnalogSensitivity * Time.deltaTime, Vector3.up) * m_GyroRotation;
-            m_GyroRotation *= Quaternion.AngleAxis(-XInput.GetController().rightStick.y.ReadValue() * m_AnalogSensitivity * Time.deltaTime, Vector3.right);
+            // XInput gamepad controls
+            else if(XInput.m_IsConnected) {
+                // Tilt right analog stick to aim the player
+                m_GyroRotation = Quaternion.AngleAxis(XInput.GetController().rightStick.x.ReadValue() * m_AnalogSensitivity * Time.deltaTime, Vector3.up) * m_GyroRotation;
+                m_GyroRotation *= Quaternion.AngleAxis(-XInput.GetController().rightStick.y.ReadValue() * m_AnalogSensitivity * Time.deltaTime, Vector3.right);
 
-            if (XInput.GetController().rightTrigger.ReadValue() > 0.8f) {
-                if(!m_HasShotProjectile) {
-                    FireProjectile();
+                if (XInput.GetController().rightTrigger.ReadValue() > 0.8f) {
+                    if(!m_HasShotProjectile) {
+                        FireProjectile();
 
-                    m_HasShotProjectile = true;
+                        m_HasShotProjectile = true;
+                    }
                 }
-            }
-            else {
-                m_HasShotProjectile = false;
+                else {
+                    m_HasShotProjectile = false;
+                }
             }
         }
 
