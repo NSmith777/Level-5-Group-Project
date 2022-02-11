@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7289758950680332623}
   - component: {fileID: 2987680893924171136}
   m_Layer: 0
-  m_Name: EnemyProjectileTest
+  m_Name: EnemyProjectile
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,7 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ded3991363e5e64cbdef4b4c5eb7471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Strength: 1
-  m_Speed: 2
+  m_Strength: 5
+  m_Speed: 3
   m_AliveTime: 10
   m_CanHarmPlayer: 1
+  m_ProjectileHitEffect: {fileID: 0}
