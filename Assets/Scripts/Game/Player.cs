@@ -11,6 +11,9 @@ using BezierSolution;
  */
 public class Player : MonoBehaviour
 {
+    [TextArea]
+    public string m_Notes = "Comment Here.";
+
     [Header("Movement")]
     // User defined points to stop and shoot on the path
     public StopPoint[] m_StopPoints;

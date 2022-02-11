@@ -962,16 +962,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25cc55d73c7a67f49b536aa0412538d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StopPoints:
-  - m_EnableEnmRails:
-    - {fileID: 0}
-    m_StopAt: 5.9
-  - m_EnableEnmRails: []
-    m_StopAt: 0
-  - m_EnableEnmRails: []
-    m_StopAt: 0
-  - m_EnableEnmRails: []
-    m_StopAt: 0
+  m_Notes: "Don't apply changes to Stop Point values in the Player prefab itself!
+    \nDoing so may cause undesired changes to values in player prefabs present in
+    other levels.\nOnly change values in instances of the prefab, and don't hit apply."
+  m_StopPoints: []
   m_RailSpeed: 5
   m_BobAnimSpeed: 3.5
   m_BobAnimStrength: 0.1
