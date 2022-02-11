@@ -1,5 +1,6 @@
 ﻿// Unity namespaces
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GlobalSettingsMgr
 {
@@ -16,6 +17,15 @@ public class GlobalSettingsMgr
 
 public class SettingsManager : MonoBehaviour
 {
+    public Slider m_AnalogSlider;
+    public Slider m_GyroSlider;
+
+    void Start()
+    {
+        m_AnalogSlider.value = GlobalSettingsMgr.m_AnalogSensitive / 10;
+        m_GyroSlider.value = GlobalSettingsMgr.m_GyroSensitive / 1000;
+    }
+
     public void AnalogValChanged(float val)
     {
         GlobalSettingsMgr.m_AnalogSensitive = val * 10;

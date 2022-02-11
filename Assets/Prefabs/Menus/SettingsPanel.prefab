@@ -1337,3 +1337,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628b3eab352be474588e9003a9edffd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_AnalogSlider: {fileID: 8405316164847079070}
+  m_GyroSlider: {fileID: 4800326836542204841}
