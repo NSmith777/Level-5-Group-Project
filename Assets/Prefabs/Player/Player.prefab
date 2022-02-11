@@ -1199,8 +1199,8 @@ MonoBehaviour:
     other levels.\nOnly change values in instances of the prefab, and don't hit apply."
   m_StopPoints: []
   m_RailSpeed: 5
-  m_BobAnimSpeed: 3.5
-  m_BobAnimStrength: 0.1
+  m_BobAnimSpeed: 3.65
+  m_BobAnimStrength: 0.15
   m_AnalogSensitivity: 120
   m_GyroSensitivity: 4000
   m_Projectile: {fileID: 6380057035159202975, guid: d0476d980fdd5dc4386ca189f87d6e98,
@@ -3293,6 +3293,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: 844c2ad21bbd49843822aa05ab260ba1,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: 844c2ad21bbd49843822aa05ab260ba1,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 844c2ad21bbd49843822aa05ab260ba1,
         type: 3}

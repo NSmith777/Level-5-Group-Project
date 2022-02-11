@@ -2603,6 +2603,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2623338811374752090, guid: 719047710f86d1e44a2175361e054c11,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3157489416042761068, guid: 719047710f86d1e44a2175361e054c11,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -2766,6 +2771,16 @@ PrefabInstance:
     - target: {fileID: 7602614859567203433, guid: 719047710f86d1e44a2175361e054c11,
         type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7826291086647632296, guid: 719047710f86d1e44a2175361e054c11,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8642540006265722189, guid: 719047710f86d1e44a2175361e054c11,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
