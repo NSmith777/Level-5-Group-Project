@@ -95,15 +95,17 @@ MonoBehaviour:
   m_ScoreAdd: 100
   m_DestroyEffect: {fileID: 2654687198033457448, guid: b6fe7de77690fa544a6a1d368ed9b3f7,
     type: 3}
-  m_Speed: 14
-  m_StopPoints: []
+  m_Speed: 8
+  m_StopPoints:
+  - m_StopAt: 0.5
+    m_Time: 2
   m_MaxHealth: 2
   m_Health: 2
   m_HealthCanvas: {fileID: 9200542515972096303}
   m_HealthBar: {fileID: 6478900694229194322}
   m_Projectile: {fileID: 4968491231639563496, guid: 54d0e30c4e122d04fb6539df62f44ad4,
     type: 3}
-  m_ShootFrequency: 4
+  m_ShootFrequency: 2
 --- !u!1 &2337862559698281295
 GameObject:
   m_ObjectHideFlags: 0

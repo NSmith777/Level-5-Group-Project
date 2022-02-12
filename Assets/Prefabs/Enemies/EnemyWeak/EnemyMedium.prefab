@@ -95,8 +95,14 @@ MonoBehaviour:
   m_ScoreAdd: 100
   m_DestroyEffect: {fileID: 2654687198033457448, guid: b6fe7de77690fa544a6a1d368ed9b3f7,
     type: 3}
-  m_Speed: 2
-  m_StopPoints: []
+  m_Speed: 12
+  m_StopPoints:
+  - m_StopAt: 0.7
+    m_Time: 4
+  - m_StopAt: 0.8
+    m_Time: 4
+  - m_StopAt: 0.9
+    m_Time: 4
   m_MaxHealth: 3
   m_Health: 3
   m_HealthCanvas: {fileID: 9200542515972096303}
