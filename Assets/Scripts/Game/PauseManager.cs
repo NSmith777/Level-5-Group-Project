@@ -29,6 +29,13 @@ public class PauseManager : MonoBehaviour
 
     void Awake()
     {
+        GlobalPauseMgr.m_IsPaused = false;
+        m_PausePanel.SetActive(false);
+        m_GameOverPanel.SetActive(false);
+        m_HUDPanel.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(null);
+
         Time.timeScale = 1;
 
         m_Scene = SceneManager.GetActiveScene();

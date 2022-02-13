@@ -10535,6 +10535,11 @@ PrefabInstance:
       propertyPath: m_GameOverPanel
       value: 
       objectReference: {fileID: 127204305}
+    - target: {fileID: 4710908583361518623, guid: 719047710f86d1e44a2175361e054c11,
+        type: 3}
+      propertyPath: m_GameOver_First
+      value: 
+      objectReference: {fileID: 1303693021}
     - target: {fileID: 4878588072946198343, guid: 719047710f86d1e44a2175361e054c11,
         type: 3}
       propertyPath: m_Sprite
@@ -23976,7 +23981,7 @@ GameObject:
   - component: {fileID: 1303693024}
   - component: {fileID: 1303693023}
   m_Layer: 5
-  m_Name: PauseBtnResume (1)
+  m_Name: GOBtnResume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26491,7 +26496,7 @@ GameObject:
   - component: {fileID: 1440368518}
   - component: {fileID: 1440368517}
   m_Layer: 5
-  m_Name: PauseBtnExit (1)
+  m_Name: GOBtnExit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
