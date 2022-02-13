@@ -9,6 +9,9 @@ using BezierSolution;
 
 public class Enemy : MonoBehaviour
 {
+    public AudioSource m_enemyHit;
+    public AudioSource m_enemyDestroy;
+
     // Amount this enemy will add to score when destroyed
     public int m_ScoreAdd = 100;
     // Enemy destroyed effect
@@ -112,6 +115,7 @@ public class Enemy : MonoBehaviour
                 Instantiate(m_DestroyEffect, m_Transform.position, Quaternion.Euler(-90, 0, 0));
 
             Destroy(gameObject);
+            m_enemyDestroy.Play();
         }
 
         // Always billboard the health bar UI
