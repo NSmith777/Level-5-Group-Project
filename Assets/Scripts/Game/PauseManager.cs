@@ -15,6 +15,7 @@ public class PauseManager : MonoBehaviour
 
     public GameObject m_SettingsPanel;
     public GameObject m_Settings_First;
+    public GameObject m_HUDPanel;
 
     bool m_IsInRootMenu = true;
 
@@ -46,6 +47,7 @@ public class PauseManager : MonoBehaviour
     {
         GlobalPauseMgr.m_IsPaused = true;
         m_PausePanel.SetActive(true);
+        m_HUDPanel.SetActive(false);
 
         EventSystem.current.SetSelectedGameObject(m_Pause_First);
 
@@ -56,6 +58,7 @@ public class PauseManager : MonoBehaviour
     {
         GlobalPauseMgr.m_IsPaused = false;
         m_PausePanel.SetActive(false);
+        m_HUDPanel.SetActive(true);
 
         EventSystem.current.SetSelectedGameObject(null);
 

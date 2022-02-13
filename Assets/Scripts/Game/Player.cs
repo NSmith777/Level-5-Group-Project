@@ -5,12 +5,16 @@ using UnityEngine;
 using UnityEngine.UI;
 // Package namespaces
 using BezierSolution;
+using UnityEngine.SceneManagement;
 
 /*
  * Provides interaction and functionality to the in-game Player prefab.
  */
 public class Player : MonoBehaviour
 {
+    public AudioSource m_fireSound;
+    public Scene m_Scene;
+
     [TextArea]
     public string m_Notes = "Comment Here.";
 
@@ -74,6 +78,8 @@ public class Player : MonoBehaviour
 
         // HACK: Indirectly call our global input constructor
         GlobalInput.m_Init = true;
+
+        m_Scene = SceneManager.GetActiveScene();
     }
 
     void FireProjectile()
@@ -86,9 +92,20 @@ public class Player : MonoBehaviour
             Instantiate(m_Projectile, instantiate_pos, Quaternion.LookRotation(hit.point - instantiate_pos));
         else
             Instantiate(m_Projectile, instantiate_pos, m_Transform.rotation);
-    }
 
+        m_fireSound.Play();
+    }
+    void PlayerDeath()
+    {
+        
+    }
     void Update() {
+
+        if (m_Health <= 0)
+        {
+            SceneManager.LoadScene(m_Scene.name);
+        }
+
         // We need our orientation relative to the forward dir against the spline path (tangent).
         m_Transform.rotation = Quaternion.LookRotation(m_BezierWalker.Spline.GetTangent(m_BezierWalker.NormalizedT));
 
