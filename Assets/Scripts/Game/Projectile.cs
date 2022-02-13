@@ -21,6 +21,10 @@ public class Projectile : MonoBehaviour
 
     // Cached vars
     private Transform m_Transform;
+    private AudioSource m_GlobalAudioSource;
+
+    public AudioClip m_enemyHitClip;
+    public AudioClip m_playerHitClip;
 
     /*
      * Waits for X seconds, then destroys this projectile.
@@ -36,6 +40,8 @@ public class Projectile : MonoBehaviour
         m_Transform = transform;
 
         StartCoroutine(kill());
+
+        m_GlobalAudioSource = GameObject.FindGameObjectWithTag("AudioSource").GetComponent<AudioSource>();
     }
 
     void Update()
@@ -49,6 +55,9 @@ public class Projectile : MonoBehaviour
                 // Deal damage to the player
                 if (hit.collider.CompareTag("Player"))
                 {
+                    // Play player hit sound effect
+                    m_GlobalAudioSource.clip = m_playerHitClip;
+                    m_GlobalAudioSource.Play(); 
                     hit.collider.GetComponent<Player>().m_Health -= m_Strength;
                     Destroy(gameObject);
                 }
@@ -58,6 +67,9 @@ public class Projectile : MonoBehaviour
                 // Deal damage to collided enemies
                 if (hit.collider.CompareTag("Enemy"))
                 {
+                    // Play enemy hit sound effect
+                    m_GlobalAudioSource.clip = m_enemyHitClip;
+                    m_GlobalAudioSource.Play();
                     hit.collider.GetComponent<Enemy>().m_Health -= m_Strength;
 
                     if(m_ProjectileHitEffect != null)

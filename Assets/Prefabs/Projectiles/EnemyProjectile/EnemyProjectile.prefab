@@ -111,3 +111,5 @@ MonoBehaviour:
   m_AliveTime: 10
   m_CanHarmPlayer: 1
   m_ProjectileHitEffect: {fileID: 0}
+  m_enemyHitClip: {fileID: 8300000, guid: cac2c722470ff7546abe67eb2de43020, type: 3}
+  m_playerHitClip: {fileID: 8300000, guid: 4de7be9c017291c46bb63adabbda554c, type: 3}

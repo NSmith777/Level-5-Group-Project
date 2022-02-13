@@ -112,3 +112,5 @@ MonoBehaviour:
   m_CanHarmPlayer: 0
   m_ProjectileHitEffect: {fileID: 4312944921619601427, guid: fdfae5f445149414f8c08ae638a00b92,
     type: 3}
+  m_enemyHitClip: {fileID: 8300000, guid: cac2c722470ff7546abe67eb2de43020, type: 3}
+  m_playerHitClip: {fileID: 8300000, guid: 4de7be9c017291c46bb63adabbda554c, type: 3}

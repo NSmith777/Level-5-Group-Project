@@ -9,9 +9,6 @@ using BezierSolution;
 
 public class Enemy : MonoBehaviour
 {
-    public AudioSource m_enemyHit;
-    public AudioSource m_enemyDestroy;
-
     // Amount this enemy will add to score when destroyed
     public int m_ScoreAdd = 100;
     // Enemy destroyed effect
@@ -37,8 +34,12 @@ public class Enemy : MonoBehaviour
     public GameObject m_Projectile;
     public float m_ShootFrequency;
 
+    [Header("Audio")]
+    public AudioClip m_enemySFXClip;
+
     // Cached vars
     private BezierWalkerWithSpeed m_BezierWalker;
+    private AudioSource m_GlobalAudioSource;
     private Transform m_Transform;
     private GameObject m_Player;
 
@@ -63,6 +64,8 @@ public class Enemy : MonoBehaviour
 
         m_Transform = transform;
         m_Player = GameObject.FindGameObjectWithTag("Player");
+
+        m_GlobalAudioSource = GameObject.FindGameObjectWithTag("AudioSource").GetComponent<AudioSource>();
     }
 
     IEnumerator MovementTimer()
@@ -109,13 +112,17 @@ public class Enemy : MonoBehaviour
         // Destroy this enemy and add to players' score
         if(m_Health <= 0)
         {
+            // Play enemy destroy sound effect
+            m_GlobalAudioSource.clip = m_enemySFXClip;
+            m_GlobalAudioSource.Play();
+
             m_Player.GetComponent<Player>().m_Score += m_ScoreAdd;
 
             if (m_DestroyEffect != null)
                 Instantiate(m_DestroyEffect, m_Transform.position, Quaternion.Euler(-90, 0, 0));
 
             Destroy(gameObject);
-            m_enemyDestroy.Play();
+            
         }
 
         // Always billboard the health bar UI

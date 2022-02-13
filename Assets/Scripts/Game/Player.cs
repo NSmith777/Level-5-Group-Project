@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public AudioSource m_fireSound;
-    public Scene m_Scene;
+    public PauseManager m_pauseManager;
 
     [TextArea]
     public string m_Notes = "Comment Here.";
@@ -70,6 +70,9 @@ public class Player : MonoBehaviour
     bool m_IsNotTouched = false;
     bool m_HasShotProjectile = false;
 
+    private AudioSource m_GlobalAudioSource;
+    public AudioClip m_playerDeathClip;
+
     void Start() {
         m_BezierWalker = GetComponent<BezierWalkerWithSpeed>();
         m_BezierWalker.speed = m_RailSpeed;
@@ -79,7 +82,7 @@ public class Player : MonoBehaviour
         // HACK: Indirectly call our global input constructor
         GlobalInput.m_Init = true;
 
-        m_Scene = SceneManager.GetActiveScene();
+        m_GlobalAudioSource = GameObject.FindGameObjectWithTag("AudioSource").GetComponent<AudioSource>();
     }
 
     void FireProjectile()
@@ -103,7 +106,12 @@ public class Player : MonoBehaviour
 
         if (m_Health <= 0)
         {
-            SceneManager.LoadScene(m_Scene.name);
+            // Play enemy destroy sound effect
+            m_GlobalAudioSource.clip = m_playerDeathClip;
+            m_GlobalAudioSource.Play();
+            m_pauseManager.GameOver();
+
+            //PauseManager.GameOver();
         }
 
         // We need our orientation relative to the forward dir against the spline path (tangent).

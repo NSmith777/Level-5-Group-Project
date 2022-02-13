@@ -10,15 +10,29 @@ public class GlobalPauseMgr
 
 public class PauseManager : MonoBehaviour
 {
+    [Header("Pause")]
     public GameObject m_PausePanel;
     public GameObject m_Pause_First;
 
     public GameObject m_SettingsPanel;
     public GameObject m_Settings_First;
+
     public GameObject m_HUDPanel;
+
+    [Header("Game Over")]
+    public GameObject m_GameOverPanel;
+    public GameObject m_GameOver_First;
+
+    private Scene m_Scene;
 
     bool m_IsInRootMenu = true;
 
+    void Awake()
+    {
+        Time.timeScale = 1;
+
+        m_Scene = SceneManager.GetActiveScene();
+    }
     void Update()
     {
         if(DS4.m_IsConnected)
@@ -87,5 +101,29 @@ public class PauseManager : MonoBehaviour
     {
         ResumeGame();
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void GameOver()
+    {
+        GlobalPauseMgr.m_IsPaused = true;
+        m_GameOverPanel.SetActive(true);
+        m_HUDPanel.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(m_GameOver_First);
+
+        Time.timeScale = 0;
+    }
+
+    public void RestartLevel()
+    {
+        GlobalPauseMgr.m_IsPaused = false;
+        m_GameOverPanel.SetActive(false);
+        m_HUDPanel.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(null);
+
+        Time.timeScale = 1;
+
+        SceneManager.LoadScene(m_Scene.name);
     }
 }
