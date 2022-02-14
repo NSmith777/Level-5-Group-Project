@@ -81,18 +81,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fc8fac988d51ef4195922f65703bfbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_enemyHit: {fileID: 5224264718027354084}
-  m_enemyDestroy: {fileID: 320501122604145692}
   m_ScoreAdd: 100
   m_DestroyEffect: {fileID: 2654687198033457448, guid: b6fe7de77690fa544a6a1d368ed9b3f7,
     type: 3}
-  m_Speed: 12
+  m_Speed: 7
   m_StopPoints:
-  - m_StopAt: 0.7
-    m_Time: 4
   - m_StopAt: 0.8
-    m_Time: 4
-  - m_StopAt: 0.9
     m_Time: 4
   m_MaxHealth: 3
   m_Health: 3
@@ -101,6 +95,7 @@ MonoBehaviour:
   m_Projectile: {fileID: 4968491231639563496, guid: 54d0e30c4e122d04fb6539df62f44ad4,
     type: 3}
   m_ShootFrequency: 2
+  m_enemySFXClip: {fileID: 0}
 --- !u!136 &6333561631834183154
 CapsuleCollider:
   m_ObjectHideFlags: 0
