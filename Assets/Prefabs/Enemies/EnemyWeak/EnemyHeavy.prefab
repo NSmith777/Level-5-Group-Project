@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4677111632115898933}
   - component: {fileID: 8259277569628186251}
   m_Layer: 0
-  m_Name: EnemyWeakFAST
+  m_Name: EnemyWeakHeavy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,22 +81,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fc8fac988d51ef4195922f65703bfbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_enemyHit: {fileID: 6293822711732661598}
-  m_enemyDestroy: {fileID: 1016018494591238032}
   m_ScoreAdd: 100
   m_DestroyEffect: {fileID: 2654687198033457448, guid: b6fe7de77690fa544a6a1d368ed9b3f7,
     type: 3}
   m_Speed: 8
   m_StopPoints:
-  - m_StopAt: 0.5
-    m_Time: 2
-  m_MaxHealth: 2
-  m_Health: 2
+  - m_StopAt: 0.9
+    m_Time: 9999
+  m_MaxHealth: 4
+  m_Health: 4
   m_HealthCanvas: {fileID: 9200542515972096303}
   m_HealthBar: {fileID: 6478900694229194322}
   m_Projectile: {fileID: 4968491231639563496, guid: 54d0e30c4e122d04fb6539df62f44ad4,
     type: 3}
   m_ShootFrequency: 2
+  m_enemySFXClip: {fileID: 0}
 --- !u!136 &8259277569628186251
 CapsuleCollider:
   m_ObjectHideFlags: 0
