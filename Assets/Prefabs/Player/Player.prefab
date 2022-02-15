@@ -3882,7 +3882,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25cc55d73c7a67f49b536aa0412538d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_pauseManager: {fileID: 4710908583361518623}
   m_Notes: "Don't apply changes to Stop Point values in the Player prefab itself!
     \nDoing so may cause undesired changes to values in player prefabs present in
     other levels.\nOnly change values in instances of the prefab, and don't hit apply."
@@ -3928,7 +3927,8 @@ MonoBehaviour:
   m_HealthBar: {fileID: 3325231689501424377}
   m_ProgressPercent: {fileID: 3325231690092365923}
   m_ProgressBar: {fileID: 3325231689631454876}
-  m_fireSound: {fileID: 0}
+  m_pauseManager: {fileID: 4710908583361518623}
+  m_fireClip: {fileID: 8300000, guid: 0d8ab9d51eb5041419121a3f214a9cc7, type: 3}
   m_playerDeathClip: {fileID: 8300000, guid: 4ba9f47428ea6db4482390609a38f271, type: 3}
   m_winClip: {fileID: 8300000, guid: 4646690796b2e3a468dd158476352f23, type: 3}
 --- !u!1 &3325231690521573150

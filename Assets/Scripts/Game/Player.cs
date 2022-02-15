@@ -5,15 +5,12 @@ using UnityEngine;
 using UnityEngine.UI;
 // Package namespaces
 using BezierSolution;
-using UnityEngine.SceneManagement;
 
 /*
  * Provides interaction and functionality to the in-game Player prefab.
  */
 public class Player : MonoBehaviour
 {
-    public PauseManager m_pauseManager;
-
     [TextArea]
     public string m_Notes = "Comment Here.";
 
@@ -41,20 +38,33 @@ public class Player : MonoBehaviour
     [Header("HUD")]
     public int m_Score = 0;
     public Text m_ScoreCounter;
+
     public Text m_GameOverScoreCounter;
     public Text m_WinScoreCounter;
+
     public float m_Time = 0f;
     public Text m_TimeCounter;
+
     public int m_MaxHealth = 100;
     public int m_Health = 100;
+
     public Text m_HealthCounter;
     public Image m_HealthBar;
+
     public Text m_ProgressPercent;
     public Image m_ProgressBar;
+
+    public PauseManager m_pauseManager;
+
+    [Header("Audio")]
+    public AudioClip m_fireClip;
+    public AudioClip m_playerDeathClip;
+    public AudioClip m_winClip;
 
     // Cached vars
     private BezierWalkerWithSpeed m_BezierWalker;
     private Transform m_Transform;
+    private AudioSource m_GlobalAudioSource;
 
     // Keep track of local gyroscope rotation
     Quaternion m_GyroRotation = Quaternion.identity;
@@ -70,12 +80,6 @@ public class Player : MonoBehaviour
     Vector2Int m_LastTouchPos;
     bool m_IsNotTouched = false;
     bool m_HasShotProjectile = false;
-
-    [Header("Audio")]
-    public AudioSource m_fireSound; 
-    private AudioSource m_GlobalAudioSource;
-    public AudioClip m_playerDeathClip;
-    public AudioClip m_winClip;
 
     void Start() {
         m_BezierWalker = GetComponent<BezierWalkerWithSpeed>();
@@ -100,16 +104,16 @@ public class Player : MonoBehaviour
         else
             Instantiate(m_Projectile, instantiate_pos, m_Transform.rotation);
 
-        m_fireSound.Play();
+        m_GlobalAudioSource.PlayOneShot(m_fireClip);
     }
+
     void Update() {
 
         //Player wins level
         if (Mathf.CeilToInt(m_BezierWalker.NormalizedT * 100) == 100)
         {
             // Play level win sound effect
-            m_GlobalAudioSource.clip = m_winClip;
-            m_GlobalAudioSource.Play();
+            m_GlobalAudioSource.PlayOneShot(m_winClip);
             m_pauseManager.WinLevel();
 
         }
@@ -118,8 +122,7 @@ public class Player : MonoBehaviour
         if (m_Health <= 0)
         {
             // Play enemy destroy sound effect
-            m_GlobalAudioSource.clip = m_playerDeathClip;
-            m_GlobalAudioSource.Play();
+            m_GlobalAudioSource.PlayOneShot(m_playerDeathClip);
             m_pauseManager.GameOver();
 
             //PauseManager.GameOver();
@@ -264,14 +267,11 @@ public class Player : MonoBehaviour
         m_ProgressBar.fillAmount = m_BezierWalker.NormalizedT;
         m_ProgressPercent.text = Mathf.CeilToInt(m_BezierWalker.NormalizedT * 100) + "%";
         
-
         m_ScoreCounter.text = m_Score.ToString().PadLeft(8, '0');
         m_WinScoreCounter.text = m_Score.ToString().PadLeft(8, '0');
         m_GameOverScoreCounter.text = m_Score.ToString().PadLeft(8, '0');
         
- 
-
-    m_Time += Time.deltaTime;
+        m_Time += Time.deltaTime;
         m_TimeCounter.text = TimeSpan.FromSeconds(m_Time).ToString(@"mm\:ss\.f");
 
         m_HealthCounter.text = m_Health + "/" + m_MaxHealth;

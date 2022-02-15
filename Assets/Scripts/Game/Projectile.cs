@@ -56,8 +56,7 @@ public class Projectile : MonoBehaviour
                 if (hit.collider.CompareTag("Player"))
                 {
                     // Play player hit sound effect
-                    m_GlobalAudioSource.clip = m_playerHitClip;
-                    m_GlobalAudioSource.Play(); 
+                    m_GlobalAudioSource.PlayOneShot(m_playerHitClip); 
                     hit.collider.GetComponent<Player>().m_Health -= m_Strength;
                     Destroy(gameObject);
                 }
@@ -68,8 +67,7 @@ public class Projectile : MonoBehaviour
                 if (hit.collider.CompareTag("Enemy"))
                 {
                     // Play enemy hit sound effect
-                    m_GlobalAudioSource.clip = m_enemyHitClip;
-                    m_GlobalAudioSource.Play();
+                    m_GlobalAudioSource.PlayOneShot(m_enemyHitClip);
                     hit.collider.GetComponent<Enemy>().m_Health -= m_Strength;
 
                     if(m_ProjectileHitEffect != null)
