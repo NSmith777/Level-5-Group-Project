@@ -12,7 +12,6 @@ using UnityEngine.SceneManagement;
  */
 public class Player : MonoBehaviour
 {
-    public AudioSource m_fireSound;
     public PauseManager m_pauseManager;
 
     [TextArea]
@@ -42,6 +41,8 @@ public class Player : MonoBehaviour
     [Header("HUD")]
     public int m_Score = 0;
     public Text m_ScoreCounter;
+    public Text m_GameOverScoreCounter;
+    public Text m_WinScoreCounter;
     public float m_Time = 0f;
     public Text m_TimeCounter;
     public int m_MaxHealth = 100;
@@ -70,8 +71,11 @@ public class Player : MonoBehaviour
     bool m_IsNotTouched = false;
     bool m_HasShotProjectile = false;
 
+    [Header("Audio")]
+    public AudioSource m_fireSound; 
     private AudioSource m_GlobalAudioSource;
     public AudioClip m_playerDeathClip;
+    public AudioClip m_winClip;
 
     void Start() {
         m_BezierWalker = GetComponent<BezierWalkerWithSpeed>();
@@ -98,12 +102,19 @@ public class Player : MonoBehaviour
 
         m_fireSound.Play();
     }
-    void PlayerDeath()
-    {
-        
-    }
     void Update() {
 
+        //Player wins level
+        if (Mathf.CeilToInt(m_BezierWalker.NormalizedT * 100) == 100)
+        {
+            // Play level win sound effect
+            m_GlobalAudioSource.clip = m_winClip;
+            m_GlobalAudioSource.Play();
+            m_pauseManager.WinLevel();
+
+        }
+        
+        //Kills player and brings up game over menu
         if (m_Health <= 0)
         {
             // Play enemy destroy sound effect
@@ -252,10 +263,15 @@ public class Player : MonoBehaviour
         // Update progression HUD elements as per current position in the stage
         m_ProgressBar.fillAmount = m_BezierWalker.NormalizedT;
         m_ProgressPercent.text = Mathf.CeilToInt(m_BezierWalker.NormalizedT * 100) + "%";
+        
 
         m_ScoreCounter.text = m_Score.ToString().PadLeft(8, '0');
+        m_WinScoreCounter.text = m_Score.ToString().PadLeft(8, '0');
+        m_GameOverScoreCounter.text = m_Score.ToString().PadLeft(8, '0');
+        
+ 
 
-        m_Time += Time.deltaTime;
+    m_Time += Time.deltaTime;
         m_TimeCounter.text = TimeSpan.FromSeconds(m_Time).ToString(@"mm\:ss\.f");
 
         m_HealthCounter.text = m_Health + "/" + m_MaxHealth;

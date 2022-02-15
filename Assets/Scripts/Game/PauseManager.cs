@@ -23,6 +23,10 @@ public class PauseManager : MonoBehaviour
     public GameObject m_GameOverPanel;
     public GameObject m_GameOver_First;
 
+    [Header("Win")]
+    public GameObject m_WinPanel;
+    public GameObject m_Win_First;
+
     private Scene m_Scene;
 
     bool m_IsInRootMenu = true;
@@ -132,5 +136,16 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = 1;
 
         SceneManager.LoadScene(m_Scene.name);
+    }
+
+    public void WinLevel()
+    {
+        GlobalPauseMgr.m_IsPaused = true;
+        m_WinPanel.SetActive(true);
+        m_HUDPanel.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(m_Win_First);
+
+        Time.timeScale = 0;
     }
 }
