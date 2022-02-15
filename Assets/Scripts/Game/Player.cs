@@ -76,6 +76,8 @@ public class Player : MonoBehaviour
     // Keep track of animated walk sine value
     private float m_WalkAnimSine = 0f;
 
+    private bool m_IsDead = false;
+
     // Touchpad state vars
     Vector2Int m_LastTouchPos;
     bool m_IsNotTouched = false;
@@ -119,13 +121,14 @@ public class Player : MonoBehaviour
         }
         
         //Kills player and brings up game over menu
-        if (m_Health <= 0)
+        if (m_Health <= 0 && !m_IsDead)
         {
+            m_IsDead = true;
+
             // Play enemy destroy sound effect
             m_GlobalAudioSource.PlayOneShot(m_playerDeathClip);
-            m_pauseManager.GameOver();
 
-            //PauseManager.GameOver();
+            m_pauseManager.GameOver();
         }
 
         // We need our orientation relative to the forward dir against the spline path (tangent).
