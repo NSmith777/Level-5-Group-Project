@@ -87,14 +87,14 @@ MonoBehaviour:
   m_Speed: 7
   m_StopPoints:
   - m_StopAt: 0.8
-    m_Time: 4
+    m_Time: 5
   m_MaxHealth: 3
   m_Health: 3
   m_HealthCanvas: {fileID: 9200542515972096303}
   m_HealthBar: {fileID: 6478900694229194322}
   m_Projectile: {fileID: 4968491231639563496, guid: 54d0e30c4e122d04fb6539df62f44ad4,
     type: 3}
-  m_ShootFrequency: 2
+  m_ShootFrequency: 4
   m_enemySFXClip: {fileID: 0}
 --- !u!136 &6333561631834183154
 CapsuleCollider:
