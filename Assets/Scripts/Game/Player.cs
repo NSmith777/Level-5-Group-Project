@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     }
 
     [Header("Weapons")]
+    // Projectile hand animator
+    public Animator m_HandAnim;
     // Projectile prefab to shoot
     public GameObject m_Projectile;
 
@@ -106,18 +108,20 @@ public class Player : MonoBehaviour
         else
             Instantiate(m_Projectile, instantiate_pos, m_Transform.rotation);
 
+        m_HandAnim.SetBool("m_IsShooting", true);
+
         m_GlobalAudioSource.PlayOneShot(m_fireClip);
     }
 
     void Update() {
 
         //Player wins level
-        if (Mathf.CeilToInt(m_BezierWalker.NormalizedT * 100) == 100)
+        if (m_BezierWalker.NormalizedT >= 1.0f)
         {
             // Play level win sound effect
             m_GlobalAudioSource.PlayOneShot(m_winClip);
-            m_pauseManager.WinLevel();
 
+            m_pauseManager.WinLevel();
         }
         
         //Kills player and brings up game over menu
